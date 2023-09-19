@@ -2,3 +2,4 @@
 a.out
 *.log
 x64/
+.vs/
