@@ -3,7 +3,7 @@ CC=gcc
 DEBUG=-g
 OPT=-O0
 WARN=-Wall
-ALLEGRO=-lallegro -lallegro_main -lallegro_audio -lallegro_dialog -lallegro_ttf -lallegro_image -lallegro_color -lallegro_memfile -lallegro_acodec -lallegro_primitives -lallegro_font
+ALLEGRO=-lallegro -lallegro_main -lallegro_audio -lallegro_dialog -lallegro_ttf -lallegro_image -lallegro_color -lallegro_memfile -lallegro_acodec -lallegro_primitives -lallegro_font -lm
 CCFLAGS=$(DEBUG) $(OPT) $(WARN) $(ALLEGRO)
 LD=gcc
 OBJS= main.o
@@ -12,5 +12,5 @@ all: $(OBJS)
 	@rm *.o
 	@./$(TARGET)
 
-main.o: main.c
-	$(CC) -c $(CCFLAGS) main.c -o main.o
+main.o: Main.c
+	$(CC) -c $(CCFLAGS) Main.c -o main.o
