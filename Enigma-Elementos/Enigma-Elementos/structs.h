@@ -7,12 +7,8 @@
 #define PI 3.14159265359
 
 typedef struct {
-  int x;
-  int y;
-} Vetor;
-
-typedef struct {
-  Vetor pos;
+  int posX;
+  int posY;
   double angulo;
   int altura;
   int largura;
@@ -21,7 +17,8 @@ typedef struct {
 } Tiro;
 
 typedef struct {
-  Vetor pos;
+  int posX;
+  int posY;
   int vel;
   bool indoCima;
   bool indoDireita;
@@ -36,8 +33,9 @@ typedef struct {
   Tiro tiros[5];
 } Personagem;
 
-Personagem protagonista = {
-  {0, 0}, // posição x, y
+Personagem heroi = {
+  0, // posição x
+  0, // posição y
   1, // velocidade
   false, // cima
   false, // direita

@@ -2,57 +2,55 @@
 #include <math.h>
 
 void movimentacao() {  
-  // aqui, por enquanto, faz a movimentação e troca da img do protagonista
+  // aqui, por enquanto, faz a movimentação e troca da img do heroi
 
-  if( protagonista.indoCima ) {
-    protagonista.pos.y -= protagonista.vel;
-    protagonista.frameAtualY = 48.5 * 3; 
+  if( heroi.indoCima ) {
+    heroi.posY -= heroi.vel;
+    heroi.frameAtualY = 48.5 * 3; 
   } 
   
-  if( protagonista.indoDireita ) {
-    protagonista.pos.x += protagonista.vel;
-    protagonista.frameAtualY = 48.5 * 2; 
+  if( heroi.indoDireita ) {
+    heroi.posX += heroi.vel;
+    heroi.frameAtualY = 48.5 * 2; 
   }
   
-  if( protagonista.indoBaixo ) {
-    protagonista.pos.y += protagonista.vel;
-    protagonista.frameAtualY = 48.5 * 0; 
+  if( heroi.indoBaixo ) {
+    heroi.posY += heroi.vel;
+    heroi.frameAtualY = 48.5 * 0; 
   }
   
-  if( protagonista.indoEsquerda ) {
-    protagonista.pos.x -= protagonista.vel;
-    protagonista.frameAtualY = 48.5 * 1; 
+  if( heroi.indoEsquerda ) {
+    heroi.posX -= heroi.vel;
+    heroi.frameAtualY = 48.5 * 1; 
   }
 
-  if( protagonista.indoCima || protagonista.indoDireita || protagonista.indoBaixo || protagonista.indoEsquerda ) {
-    protagonista.frame += 0.2;
-  }
-
-  if( protagonista.frame > protagonista.frameMax ) 
-    protagonista.frame -= protagonista.frameMax;
+  heroi.frame += 0.15;
+  if( heroi.frame > heroi.frameMax ) 
+    heroi.frame -= heroi.frameMax;
 }
 
 // mx --> posição x do mouse
 // my --> posição y do mouse
 void atacar(int mx, int my) {
-  if( protagonista.tempoAtacar <= 0 ) {
-    double angulo = atan2((double)my - protagonista.pos.y, (double)mx - protagonista.pos.x);
+  if( heroi.tempoAtacar <= 0 ) {
+    double angulo = atan2((double)my - heroi.posY, (double)mx - heroi.posX);
 
     for(int i = 0; i < 5; i++) {
-      if( !protagonista.tiros[i].ativo ) {
-        protagonista.tiros[i].altura = 32;
-        protagonista.tiros[i].largura = 32;
-        protagonista.tiros[i].angulo = angulo;
-        protagonista.tiros[i].ativo = true;
-        protagonista.tiros[i].pos.x = protagonista.pos.x;
-        protagonista.tiros[i].pos.y = protagonista.pos.y;
-        protagonista.tiros[i].image = al_load_bitmap("./assets/bolafogo1.png");
+      if( !heroi.tiros[i].ativo ) {
+        heroi.tiros[i].altura = 32;
+        heroi.tiros[i].largura = 32;
+        heroi.tiros[i].angulo = angulo;
+        heroi.tiros[i].ativo = true;
+        heroi.tiros[i].posX = heroi.posX;
+        heroi.tiros[i].posY = heroi.posY;
+        heroi.tiros[i].image = al_load_bitmap("./assets/bolafogo.png");
+        break;
       } 
     }
     
-    protagonista.tempoAtacar = 10;
+    heroi.tempoAtacar = 6;
   } else {
-    protagonista.tempoAtacar -= 0.1;
+    heroi.tempoAtacar -= 0.1;
   }
 
 }

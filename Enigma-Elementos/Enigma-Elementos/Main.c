@@ -1,6 +1,6 @@
 #include "eventos.h"
 
-#define JANELA_LARGURA 1280
+#define JANELA_LARGURA 1020
 #define JANELA_ALTURA 720
 
 int main (){
@@ -13,15 +13,16 @@ int main (){
   ALLEGRO_DISPLAY* janela = al_create_display(JANELA_LARGURA, JANELA_ALTURA);
   ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0); 
   ALLEGRO_EVENT_QUEUE* fila_eventos = al_create_event_queue(); 
-  ALLEGRO_BITMAP* imgFundo = al_load_bitmap("./assets/mapa.png");
   ALLEGRO_MOUSE_STATE mouse;
+  ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa.bmp");
+  ALLEGRO_BITMAP* bobOmb = al_load_bitmap("./assets/bob-omb-andando.png"); // 35 largura cada; 35 altura cada
 
 // DECLARAÇÕES NOSSA
-  protagonista.sprite = al_load_bitmap("./assets/andando.png");
+  heroi.sprite = al_load_bitmap("./assets/andando.png");
   bool jogando = true;
 
   al_set_window_position(janela, 200, 200); 
-  al_set_window_title(janela, "Save the princess!");
+  al_set_window_title(janela, "O Enigma dos Elementos");
 
   al_register_event_source(fila_eventos, al_get_display_event_source(janela)); 
   al_register_event_source(fila_eventos, al_get_timer_event_source(timer)); 
@@ -43,50 +44,50 @@ int main (){
           break;
         case ALLEGRO_EVENT_TIMER:
           redesenha = true;
-          if( protagonista.indoCima || protagonista.indoDireita || protagonista.indoBaixo || protagonista.indoEsquerda ) {
+          if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
             movimentacao(); // movimentação do player por enquanto
           }
-          if( protagonista.estaAtacando ) {
+          if( heroi.estaAtacando ) {
             al_get_mouse_state(&mouse);
             atacar(mouse.x, mouse.y);
           }
           break;
         case ALLEGRO_EVENT_KEY_DOWN:
           if ( evento.keyboard.keycode == ALLEGRO_KEY_RIGHT || evento.keyboard.keycode == ALLEGRO_KEY_D ) {
-            protagonista.indoDireita = true;
+            heroi.indoDireita = true;
           }
           else if ( evento.keyboard.keycode == ALLEGRO_KEY_LEFT || evento.keyboard.keycode == ALLEGRO_KEY_A ) {
-            protagonista.indoEsquerda = true;
+            heroi.indoEsquerda = true;
           }
           else if ( evento.keyboard.keycode == ALLEGRO_KEY_DOWN || evento.keyboard.keycode == ALLEGRO_KEY_S ) {
-            protagonista.indoBaixo = true;
+            heroi.indoBaixo = true;
           }
           else if ( evento.keyboard.keycode == ALLEGRO_KEY_UP || evento.keyboard.keycode == ALLEGRO_KEY_W ) {
-            protagonista.indoCima = true;
+            heroi.indoCima = true;
           }
           break;
         case ALLEGRO_EVENT_KEY_UP:
           if ( evento.keyboard.keycode == ALLEGRO_KEY_RIGHT || evento.keyboard.keycode == ALLEGRO_KEY_D ) {
-            protagonista.indoDireita = false;
+            heroi.indoDireita = false;
           }
           if ( evento.keyboard.keycode == ALLEGRO_KEY_LEFT || evento.keyboard.keycode == ALLEGRO_KEY_A ) {
-            protagonista.indoEsquerda = false;
+            heroi.indoEsquerda = false;
           }
           if ( evento.keyboard.keycode == ALLEGRO_KEY_DOWN || evento.keyboard.keycode == ALLEGRO_KEY_S ) {
-            protagonista.indoBaixo = false;
+            heroi.indoBaixo = false;
           }
           if ( evento.keyboard.keycode == ALLEGRO_KEY_UP || evento.keyboard.keycode == ALLEGRO_KEY_W ) {
-            protagonista.indoCima = false;
+            heroi.indoCima = false;
           }
           break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
           if( evento.mouse.button == 1 ) {
-            protagonista.estaAtacando = true;
+            heroi.estaAtacando = true;
           }
           break;
         case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
           if( evento.mouse.button == 1 ) {
-            protagonista.estaAtacando = false;
+            heroi.estaAtacando = false;
           }
           break;
         
@@ -96,20 +97,19 @@ int main (){
     // caso passou o tempo de FPS ele redesenha a tela
     if(redesenha) {
       al_clear_to_color(al_map_rgb(0 ,0 ,0 ));
-      // al_draw_bitmap(imgFundo, 0, 0, 0);
-      al_draw_bitmap_region(protagonista.sprite, 47 * (int)protagonista.frame, protagonista.frameAtualY, 47, 48.5, protagonista.pos.x, protagonista.pos.y, 0); // imagem, ponto_img_x, ponto_img_y, larg, altu, pos_x, pos_y, display(sempre 0)
+      al_draw_bitmap(lobby, 0, 0, 0);
+      al_draw_bitmap_region(heroi.sprite, 47 * (int)heroi.frame, heroi.frameAtualY, 47, 48.5, heroi.posX, heroi.posY, 0); // imagem, ponto_img_x, ponto_img_y, larg, altu, pos_x, pos_y, display(sempre 0)
 
-      
       for(int i = 0; i < 5; i++) {
-        if( protagonista.tiros[i].ativo && (protagonista.tiros[i].pos.x > JANELA_LARGURA || protagonista.tiros[i].pos.x < 0 || protagonista.tiros[i].pos.y > JANELA_ALTURA || protagonista.tiros[i].pos.y < 0) ) {
-          protagonista.tiros[i].ativo = false;
-          al_destroy_bitmap(protagonista.tiros[i].image);
+        if( heroi.tiros[i].ativo && (heroi.tiros[i].posX > JANELA_LARGURA || heroi.tiros[i].posX < 0 || heroi.tiros[i].posY > JANELA_ALTURA || heroi.tiros[i].posY < 0) ) {
+          heroi.tiros[i].ativo = false;
+          al_destroy_bitmap(heroi.tiros[i].image);
         }
 
-        if( protagonista.tiros[i].ativo ) {
-          protagonista.tiros[i].pos.x += 6 * cos(protagonista.tiros[i].angulo);
-          protagonista.tiros[i].pos.y += 6 * sin(protagonista.tiros[i].angulo);
-          al_draw_bitmap(protagonista.tiros[i].image, protagonista.tiros[i].pos.x, protagonista.tiros[i].pos.y, 0);
+        if( heroi.tiros[i].ativo ) {
+          heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
+          heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
+          al_draw_bitmap(heroi.tiros[i].image, heroi.tiros[i].posX, heroi.tiros[i].posY, 0);
         }
       }
 
@@ -118,11 +118,12 @@ int main (){
   }
 
 // Aqui precisamos excluir a maioria das coisas que criamos
-  al_destroy_bitmap(imgFundo);
-  al_destroy_bitmap(protagonista.sprite);
-  al_destroy_display(janela);
+  al_destroy_bitmap(lobby);
+  al_destroy_bitmap(heroi.sprite);
+  al_destroy_bitmap(bobOmb);
   al_destroy_event_queue(fila_eventos);
   al_destroy_timer(timer);
+  al_destroy_display(janela);
 
 // Frees
 
