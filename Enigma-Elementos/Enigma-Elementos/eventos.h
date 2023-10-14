@@ -1,6 +1,3 @@
-#include "structs.h"
-#include <math.h>
-
 void movimentacao() {  
   // aqui, por enquanto, faz a movimentação e troca da img do heroi
 

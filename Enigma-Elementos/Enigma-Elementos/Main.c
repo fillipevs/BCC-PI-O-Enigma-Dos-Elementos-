@@ -1,4 +1,7 @@
+#include <math.h>
+#include "structs.h"
 #include "eventos.h"
+#include "inimigo.h"
 
 #define JANELA_LARGURA 1020
 #define JANELA_ALTURA 720
@@ -15,10 +18,10 @@ int main (){
   ALLEGRO_EVENT_QUEUE* fila_eventos = al_create_event_queue(); 
   ALLEGRO_MOUSE_STATE mouse;
   ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa.bmp");
-  ALLEGRO_BITMAP* bobOmb = al_load_bitmap("./assets/bob-omb-andando.png"); // 35 largura cada; 35 altura cada
 
 // DECLARAÇÕES NOSSA
   heroi.sprite = al_load_bitmap("./assets/andando.png");
+  bobOmb.sprite = al_load_bitmap("./assets/bob-omb-0.png");
   bool jogando = true;
 
   al_set_window_position(janela, 200, 200); 
@@ -44,6 +47,7 @@ int main (){
           break;
         case ALLEGRO_EVENT_TIMER:
           redesenha = true;
+          movi();
           if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
             movimentacao(); // movimentação do player por enquanto
           }
@@ -98,7 +102,8 @@ int main (){
     if(redesenha) {
       al_clear_to_color(al_map_rgb(0 ,0 ,0 ));
       al_draw_bitmap(lobby, 0, 0, 0);
-      al_draw_bitmap_region(heroi.sprite, 47 * (int)heroi.frame, heroi.frameAtualY, 47, 48.5, heroi.posX, heroi.posY, 0); // imagem, ponto_img_x, ponto_img_y, larg, altu, pos_x, pos_y, display(sempre 0)
+      al_draw_bitmap_region(heroi.sprite, heroi.largura * (int)heroi.frame, heroi.frameAtualY, heroi.largura, heroi.altura, heroi.posX, heroi.posY, 0); // imagem, ponto_img_x, ponto_img_y, larg, altu, pos_x, pos_y, display(sempre 0)
+      al_draw_bitmap_region(bobOmb.sprite, bobOmb.largura * (int)bobOmb.frame, bobOmb.frameAtualY, bobOmb.largura, bobOmb.altura, bobOmb.posX, bobOmb.posY, 0); // imagem, ponto_img_x, ponto_img_y, larg, altu, pos_x, pos_y, display(sempre 0)
 
       for(int i = 0; i < 5; i++) {
         if( heroi.tiros[i].ativo && (heroi.tiros[i].posX > JANELA_LARGURA || heroi.tiros[i].posX < 0 || heroi.tiros[i].posY > JANELA_ALTURA || heroi.tiros[i].posY < 0) ) {
@@ -120,7 +125,7 @@ int main (){
 // Aqui precisamos excluir a maioria das coisas que criamos
   al_destroy_bitmap(lobby);
   al_destroy_bitmap(heroi.sprite);
-  al_destroy_bitmap(bobOmb);
+  al_destroy_bitmap(bobOmb.sprite);
   al_destroy_event_queue(fila_eventos);
   al_destroy_timer(timer);
   al_destroy_display(janela);
