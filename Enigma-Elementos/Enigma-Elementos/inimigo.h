@@ -1,3 +1,5 @@
+#include "funcoes.h"
+
 float timerr = 0;
 
 void movi(){

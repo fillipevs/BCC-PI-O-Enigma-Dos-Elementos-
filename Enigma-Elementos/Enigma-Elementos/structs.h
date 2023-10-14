@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <allegro5/allegro.h>
-#include <allegro5/keyboard.h> 
-#include <allegro5/allegro_image.h> 
-
-#define PI 3.14159265359
+typedef struct {
+  ALLEGRO_DISPLAY* display;
+  ALLEGRO_TIMER* timer;
+  ALLEGRO_EVENT_QUEUE* eventQueue;
+  ALLEGRO_MOUSE_STATE mouse;
+  bool close;
+} Allegro;
 
 typedef struct {
   int posX;

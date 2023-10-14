@@ -1,0 +1,4 @@
+#define JANELA_LARGURA 1020
+#define JANELA_ALTURA 720
+
+#define PI 3.14159265359
