@@ -2,9 +2,23 @@ typedef struct {
   ALLEGRO_DISPLAY* display;
   ALLEGRO_TIMER* timer;
   ALLEGRO_EVENT_QUEUE* eventQueue;
+  ALLEGRO_FONT* font[2];
   ALLEGRO_MOUSE_STATE mouse;
   bool close;
 } Allegro;
+
+typedef struct {
+  ALLEGRO_BITMAP* image;
+  int x;
+  int y;
+  int width;
+  int height;
+  int frameX;
+  bool isActive;
+  float textX;
+  float textY;
+  char text[30];
+} Button;
 
 typedef struct {
   int posX;

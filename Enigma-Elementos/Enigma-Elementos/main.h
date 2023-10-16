@@ -4,12 +4,16 @@
 #include <allegro5/allegro.h>
 #include <allegro5/keyboard.h> 
 #include <allegro5/allegro_image.h> 
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 
 #include "constantes.h"
 #include "structs.h"
 #include "eventos.h"
 #include "inimigo.h"
 #include "funcoes.h"
+#include "menu.h"
+#include "lobby.h"
 
 Allegro init() {
   Allegro allegro;
@@ -25,9 +29,17 @@ Allegro init() {
     al_set_window_position(allegro.display, 200, 200); 
     al_set_window_title(allegro.display, "O Enigma dos Elementos");
 
+    al_init_font_addon();
+    al_init_ttf_addon();
+
+    allegro.font[0] = al_load_font("./assets/fonts/inter-bold.ttf", 32, 0);
+    allegro.font[1] = al_load_font("./assets/fonts/inter-regular.ttf", 16, 0);
+
     al_init_image_addon(); 
     al_install_keyboard();
     al_install_mouse();
+    
+    al_set_system_mouse_cursor(allegro.display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
 
     al_register_event_source(allegro.eventQueue, al_get_display_event_source(allegro.display)); 
     al_register_event_source(allegro.eventQueue, al_get_timer_event_source(allegro.timer)); 
@@ -35,19 +47,15 @@ Allegro init() {
     al_register_event_source(allegro.eventQueue, al_get_mouse_event_source());
     
     al_start_timer(allegro.timer); 
-
-    heroi.sprite = al_load_bitmap("./assets/andando.png");
-    bobOmb.sprite = al_load_bitmap("./assets/bob-omb-0.png");
   }
 
   return allegro;
 }
 
 void destroy(Allegro* allegro) {
-  al_destroy_bitmap(heroi.sprite);
-  al_destroy_bitmap(bobOmb.sprite);
-
   al_destroy_event_queue(allegro->eventQueue);
   al_destroy_timer(allegro->timer);
   al_destroy_display(allegro->display);
+  for(int i = 0; i < 2; i++) 
+    al_destroy_font(allegro->font[i]);
 }

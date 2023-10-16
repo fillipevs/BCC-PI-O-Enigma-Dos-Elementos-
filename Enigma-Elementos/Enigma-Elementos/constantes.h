@@ -2,3 +2,9 @@
 #define JANELA_ALTURA 720
 
 #define PI 3.14159265359
+
+typedef enum {
+  MENU,
+  LOBBY,
+  EXIT,
+} GAME_STATUS;

@@ -1,73 +1,5 @@
 #include "funcoes.h"
 
-void eventos(Allegro* allegro, bool *desenhar) {
-  while(!al_is_event_queue_empty(allegro->eventQueue)) {
-      ALLEGRO_EVENT evento; 
-      al_wait_for_event(allegro->eventQueue, &evento);
-
-      // verifica quais eventos estão ocorrendo
-      switch(evento.type) {
-        case ALLEGRO_EVENT_DISPLAY_CLOSE: 
-          allegro->close = true;
-          break;
-
-        case ALLEGRO_EVENT_TIMER:
-          *desenhar = true;
-          movi();
-          if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
-            movimentacao(); // movimentação do player por enquanto
-          }
-          if( heroi.estaAtacando ) {
-            al_get_mouse_state(&allegro->mouse);
-            atacar(allegro->mouse.x, allegro->mouse.y);
-          }
-          break;
-
-        case ALLEGRO_EVENT_KEY_DOWN:
-          if ( evento.keyboard.keycode == ALLEGRO_KEY_RIGHT || evento.keyboard.keycode == ALLEGRO_KEY_D ) {
-            heroi.indoDireita = true;
-          }
-          else if ( evento.keyboard.keycode == ALLEGRO_KEY_LEFT || evento.keyboard.keycode == ALLEGRO_KEY_A ) {
-            heroi.indoEsquerda = true;
-          }
-          else if ( evento.keyboard.keycode == ALLEGRO_KEY_DOWN || evento.keyboard.keycode == ALLEGRO_KEY_S ) {
-            heroi.indoBaixo = true;
-          }
-          else if ( evento.keyboard.keycode == ALLEGRO_KEY_UP || evento.keyboard.keycode == ALLEGRO_KEY_W ) {
-            heroi.indoCima = true;
-          }
-          break;
-
-        case ALLEGRO_EVENT_KEY_UP:
-          if ( evento.keyboard.keycode == ALLEGRO_KEY_RIGHT || evento.keyboard.keycode == ALLEGRO_KEY_D ) {
-            heroi.indoDireita = false;
-          }
-          if ( evento.keyboard.keycode == ALLEGRO_KEY_LEFT || evento.keyboard.keycode == ALLEGRO_KEY_A ) {
-            heroi.indoEsquerda = false;
-          }
-          if ( evento.keyboard.keycode == ALLEGRO_KEY_DOWN || evento.keyboard.keycode == ALLEGRO_KEY_S ) {
-            heroi.indoBaixo = false;
-          }
-          if ( evento.keyboard.keycode == ALLEGRO_KEY_UP || evento.keyboard.keycode == ALLEGRO_KEY_W ) {
-            heroi.indoCima = false;
-          }
-          break;
-
-        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-          if( evento.mouse.button == 1 ) {
-            heroi.estaAtacando = true;
-          }
-          break;
-
-        case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-          if( evento.mouse.button == 1 ) {
-            heroi.estaAtacando = false;
-          }
-          break;
-      }
-    }
-}
-
 void movimentacao() {  
 
   if( heroi.indoCima ) {
@@ -108,7 +40,7 @@ void atacar(int mx, int my) {
         heroi.tiros[i].ativo = true;
         heroi.tiros[i].posX = heroi.posX;
         heroi.tiros[i].posY = heroi.posY;
-        heroi.tiros[i].image = al_load_bitmap("./assets/bolafogo.png");
+        heroi.tiros[i].image = al_load_bitmap("./assets/poderes/bolafogo.png");
         break;
       } 
     }
