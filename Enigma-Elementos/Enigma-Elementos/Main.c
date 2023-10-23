@@ -12,6 +12,9 @@ int main () {
     case MENU:
       gameStatus = menu(&allegro);
       break;
+    case PROLOGUE: 
+      gameStatus = prologue(&allegro);
+      break;
     case LOBBY: 
       gameStatus = lobby(&allegro);
       break;

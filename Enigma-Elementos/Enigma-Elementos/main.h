@@ -12,7 +12,9 @@
 #include "eventos.h"
 #include "inimigo.h"
 #include "funcoes.h"
+#include "dialogBox.h"
 #include "menu.h"
+#include "prologue.h"
 #include "lobby.h"
 
 Allegro init() {
@@ -33,7 +35,7 @@ Allegro init() {
     al_init_ttf_addon();
 
     allegro.font[0] = al_load_font("./assets/fonts/inter-bold.ttf", 32, 0);
-    allegro.font[1] = al_load_font("./assets/fonts/inter-regular.ttf", 16, 0);
+    allegro.font[1] = al_load_font("./assets/fonts/inter-bold.ttf", 26, 0);
 
     al_init_image_addon(); 
     al_install_keyboard();

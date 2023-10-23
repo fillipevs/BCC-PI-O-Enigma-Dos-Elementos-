@@ -40,7 +40,7 @@ GAME_STATUS menu(Allegro* allegro) {
           btnPlay.frameX = 0;
           btnPlay.textY -= 10;
           done = true;
-          gameStatus = LOBBY;
+          gameStatus = PROLOGUE;
         } 
 
         if( btnExit.frameX != 0 ) {
