@@ -5,7 +5,9 @@ GAME_STATUS lobby(Allegro* allegro) {
   bool draw = false;
   bool done = false;
 
+  ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa/lobby.bmp");
   heroi.sprite = al_load_bitmap("./assets/heroi/andando.png");
+  king.sprite = al_load_bitmap("./assets/npc/king.png");
   bobOmb.sprite = al_load_bitmap("./assets/inimigos/bob-omb-0.png");
 
   do {
@@ -24,7 +26,9 @@ GAME_STATUS lobby(Allegro* allegro) {
           al_get_mouse_state(&allegro->mouse);
           movi(); // movimentacao do bob-omb provisorio
           if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
-            movimentacao(); // movimentação do player por enquanto
+            movimentacao(&heroi); // movimentação do player por enquanto
+          } else {
+            heroi.frame = 1;
           }
           if( heroi.estaAtacando ) {
             atacar(allegro->mouse.x, allegro->mouse.y);
@@ -44,6 +48,9 @@ GAME_STATUS lobby(Allegro* allegro) {
           else if ( event.keyboard.keycode == ALLEGRO_KEY_UP || event.keyboard.keycode == ALLEGRO_KEY_W ) {
             heroi.indoCima = true;
           }
+          else if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
+            heroi.vel += 0.7;
+          }
           break;
 
         case ALLEGRO_EVENT_KEY_UP:
@@ -58,6 +65,9 @@ GAME_STATUS lobby(Allegro* allegro) {
           }
           if ( event.keyboard.keycode == ALLEGRO_KEY_UP || event.keyboard.keycode == ALLEGRO_KEY_W ) {
             heroi.indoCima = false;
+          } 
+          if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
+            heroi.vel -= 0.7;
           }
           break;
 
@@ -81,8 +91,10 @@ GAME_STATUS lobby(Allegro* allegro) {
     if( draw ) {
     draw = false;
     al_clear_to_color(al_map_rgb(0 ,0 ,0 ));
+    al_draw_bitmap(lobby, 0, 0, 0);
 
     al_draw_bitmap_region(heroi.sprite, heroi.largura * (int)heroi.frame, heroi.frameAtualY, heroi.largura, heroi.altura, heroi.posX, heroi.posY, 0); 
+    al_draw_bitmap_region(king.sprite, king.largura * (int)king.frame, king.frameAtualY, king.largura, king.altura, king.posX, king.posY, 0); 
 
     al_draw_bitmap_region(bobOmb.sprite, bobOmb.largura * (int)bobOmb.frame, bobOmb.frameAtualY, bobOmb.largura, bobOmb.altura, bobOmb.posX, bobOmb.posY, 0); 
 
@@ -104,10 +116,12 @@ GAME_STATUS lobby(Allegro* allegro) {
     
   } while(!done);
 
+  al_destroy_bitmap(lobby);  
   al_destroy_bitmap(heroi.sprite);  
+  al_destroy_bitmap(king.sprite);  
   al_destroy_bitmap(bobOmb.sprite);
   for(int i = 0; i < 5; i++) 
-    al_destroy_bitmap(bobOmb.tiros[i].image);
+    al_destroy_bitmap(heroi.tiros[i].image);
 
   return gameStatus;
 } 

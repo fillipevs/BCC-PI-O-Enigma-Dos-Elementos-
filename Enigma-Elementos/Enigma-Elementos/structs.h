@@ -31,11 +31,11 @@ typedef struct {
 } Tiro;
 
 typedef struct {
-  int posX;
-  int posY;
+  float posX;
+  float posY;
   float largura;
   float altura;
-  int vel;
+  float vel;
   bool indoCima;
   bool indoDireita;
   bool indoBaixo;
@@ -44,25 +44,65 @@ typedef struct {
   int frameMax;
   int frameAtualY;
   ALLEGRO_BITMAP* sprite; 
+  ALLEGRO_BITMAP* face;
   bool estaAtacando;
   float tempoAtacar;
   Tiro tiros[5];
 } Personagem;
 
 Personagem heroi = {
-  0, // posição x
-  0, // posição y
+  635, // posição x
+  170, // posição y
   47, // largura
   48.5, // altura
-  1, // velocidade
+  1.3, // velocidade
   false, // cima
   false, // direita
   false, // baixo
   false, // esquerda
   0.f, // frame
   3, // frame máximo
-  0, // frame atual y
+  145, // frame atual y
   NULL, // sprite -> 141 / 3 = 47 -> largura; 194 / 4 = 48.5 -> altura;
+  NULL, // face
+  false, // está atacando
+  0 // tempo para atacar
+};
+
+Personagem earl = {
+  530, // posição x
+  800, // posição y
+  48.3, // largura
+  48, // altura
+  1.3, // velocidade
+  false, // cima
+  false, // direita
+  false, // baixo
+  false, // esquerda
+  0.f, // frame 
+  3, // frame máximo
+  144, // frame atual y
+  NULL, // sprite -> 37.5 -> largura; 41.42 -> altura;
+  NULL, // face
+  false, // está atacando
+  0 // tempo para atacar
+};
+
+Personagem king = {
+  970, // posição x
+  80, // posição y
+  48.3, // largura
+  48, // altura
+  1.3, // velocidade
+  false, // cima
+  false, // direita
+  false, // baixo
+  false, // esquerda
+  1, // frame 
+  3, // frame máximo
+  48, // frame atual y
+  NULL, // sprite -> 37.5 -> largura; 41.42 -> altura;
+  NULL, // face
   false, // está atacando
   0 // tempo para atacar
 };
@@ -81,6 +121,7 @@ Personagem bobOmb = {
   4, // frame máximo
   0, // frame atual y
   NULL, // sprite
+  NULL, // face
   false, // está atacando
   0 // tempo para atacar
 };

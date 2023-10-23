@@ -5,6 +5,7 @@
 
 typedef enum {
   MENU,
+  PROLOGUE,
   LOBBY,
   EXIT,
 } GAME_STATUS;

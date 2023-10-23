@@ -1,30 +1,30 @@
 #include "funcoes.h"
 
-void movimentacao() {  
+void movimentacao(Personagem* character) {  
 
-  if( heroi.indoCima ) {
-    heroi.posY -= heroi.vel;
-    heroi.frameAtualY = heroi.altura * 3; 
+  if( character->indoCima ) {
+    character->posY -= character->vel;
+    character->frameAtualY = character->altura * 3; 
   } 
   
-  if( heroi.indoDireita ) {
-    heroi.posX += heroi.vel;
-    heroi.frameAtualY = heroi.altura * 2; 
-  }
-  
-  if( heroi.indoBaixo ) {
-    heroi.posY += heroi.vel;
-    heroi.frameAtualY = heroi.altura * 0; 
-  }
-  
-  if( heroi.indoEsquerda ) {
-    heroi.posX -= heroi.vel;
-    heroi.frameAtualY = heroi.altura * 1; 
+  if( character->indoBaixo ) {
+    character->posY += character->vel;
+    character->frameAtualY = character->altura * 0; 
   }
 
-  heroi.frame += 0.15;
-  if( heroi.frame > heroi.frameMax ) 
-    heroi.frame -= heroi.frameMax;
+  if( character->indoDireita ) {
+    character->posX += character->vel;
+    character->frameAtualY = character->altura * 2; 
+  }
+
+  if( character->indoEsquerda ) {
+    character->posX -= character->vel;
+    character->frameAtualY = character->altura * 1; 
+  }
+
+  character->frame += 0.13;
+  if( character->frame > character->frameMax ) 
+    character->frame -= character->frameMax;
 }
 
 
