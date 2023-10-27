@@ -29,12 +29,108 @@
     <ClInclude Include="structs.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="constantes.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="dialogBox.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="eventos.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="funcoes.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="inimigo.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="lobby.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="prologue.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Mapas.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\andando.png">
+    <Image Include="assets\heroi\andando.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
-    <Image Include="assets\mapa.png">
+    <Image Include="assets\heroi\face.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\inimigos\bob-omb-0.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\inimigos\bob-omb-1.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\inimigos\bob-omb-2.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\inimigos\bob-omb-3.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\inimigos\bob-omb-4.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\inimigos\bob-omb-5.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\inimigos\bob-omb-full.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\mapa\agua.bmp">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\mapa\fogo.bmp">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\mapa\home.bmp">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\mapa\lobby.bmp">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\mapa\planta.bmp">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\menu\botao.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\menu\menu.bmp">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\menu\menu-reserva.bmp">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\npc\earl.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\npc\earl-face.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\npc\king.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\npc\king-face.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\npc\princess.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\npc\princess-face.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="assets\poderes\bolafogo.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
   </ItemGroup>

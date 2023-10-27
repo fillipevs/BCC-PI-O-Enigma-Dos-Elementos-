@@ -1,14 +1,20 @@
 #include "funcoes.h"
+#include "Mapas.h"
 
 GAME_STATUS lobby(Allegro* allegro) {
   GAME_STATUS gameStatus = LOBBY;
   bool draw = false;
   bool done = false;
-
+  int posYi;
+  int posXi;
+ 
   ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa/lobby.bmp");
   heroi.sprite = al_load_bitmap("./assets/heroi/andando.png");
   king.sprite = al_load_bitmap("./assets/npc/king.png");
   bobOmb.sprite = al_load_bitmap("./assets/inimigos/bob-omb-0.png");
+  mapa(1);
+  posYi = (int)heroi.posY;
+  posXi = (int)heroi.posX;
 
   do {
     while(!al_is_event_queue_empty(allegro->eventQueue)) {
@@ -37,7 +43,8 @@ GAME_STATUS lobby(Allegro* allegro) {
 
         case ALLEGRO_EVENT_KEY_DOWN:
           if ( event.keyboard.keycode == ALLEGRO_KEY_RIGHT || event.keyboard.keycode == ALLEGRO_KEY_D ) {
-            heroi.indoDireita = true;
+              if(map[posYi][posXi+1] !=1 ){ heroi.indoDireita = false;}
+              else { heroi.indoDireita = true; }
           }
           else if ( event.keyboard.keycode == ALLEGRO_KEY_LEFT || event.keyboard.keycode == ALLEGRO_KEY_A ) {
             heroi.indoEsquerda = true;
@@ -115,7 +122,7 @@ GAME_STATUS lobby(Allegro* allegro) {
     }
     
   } while(!done);
-
+  mapa(0);
   al_destroy_bitmap(lobby);  
   al_destroy_bitmap(heroi.sprite);  
   al_destroy_bitmap(king.sprite);  

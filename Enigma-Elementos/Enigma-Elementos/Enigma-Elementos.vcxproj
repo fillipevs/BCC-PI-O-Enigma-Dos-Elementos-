@@ -147,12 +147,44 @@
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="constantes.h" />
     <ClInclude Include="controles.h" />
+    <ClInclude Include="dialogBox.h" />
+    <ClInclude Include="eventos.h" />
+    <ClInclude Include="funcoes.h" />
+    <ClInclude Include="inimigo.h" />
+    <ClInclude Include="lobby.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="Mapas.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="prologue.h" />
     <ClInclude Include="structs.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\andando.png" />
-    <Image Include="assets\mapa.png" />
+    <Image Include="assets\heroi\andando.png" />
+    <Image Include="assets\heroi\face.png" />
+    <Image Include="assets\inimigos\bob-omb-0.png" />
+    <Image Include="assets\inimigos\bob-omb-1.png" />
+    <Image Include="assets\inimigos\bob-omb-2.png" />
+    <Image Include="assets\inimigos\bob-omb-3.png" />
+    <Image Include="assets\inimigos\bob-omb-4.png" />
+    <Image Include="assets\inimigos\bob-omb-5.png" />
+    <Image Include="assets\inimigos\bob-omb-full.png" />
+    <Image Include="assets\mapa\agua.bmp" />
+    <Image Include="assets\mapa\fogo.bmp" />
+    <Image Include="assets\mapa\home.bmp" />
+    <Image Include="assets\mapa\lobby.bmp" />
+    <Image Include="assets\mapa\planta.bmp" />
+    <Image Include="assets\menu\botao.png" />
+    <Image Include="assets\menu\menu-reserva.bmp" />
+    <Image Include="assets\menu\menu.bmp" />
+    <Image Include="assets\npc\earl-face.png" />
+    <Image Include="assets\npc\earl.png" />
+    <Image Include="assets\npc\king-face.png" />
+    <Image Include="assets\npc\king.png" />
+    <Image Include="assets\npc\princess-face.png" />
+    <Image Include="assets\npc\princess.png" />
+    <Image Include="assets\poderes\bolafogo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
