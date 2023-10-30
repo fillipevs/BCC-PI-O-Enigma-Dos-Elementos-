@@ -2,6 +2,8 @@ Allegro init();
 void movimentacao(Personagem* character);
 void atacar(int mx, int my);
 void movi();
+bool characterCollision(Personagem* char1, Personagem* char2);
+bool mapCollision(Personagem* char1, MapSquare* square);
 
 void dialogBox(Allegro* allegro, char string[], Personagem* character);
 GAME_STATUS menu(Allegro* allegro);

@@ -6,9 +6,9 @@ GAME_STATUS menu(Allegro* allegro) {
   bool done = false;
 
   ALLEGRO_BITMAP* menu = al_load_bitmap("./assets/menu/menu.bmp");
-  Button btnPlay = {al_load_bitmap("./assets/menu/botao.png"), JANELA_LARGURA/2.6, JANELA_ALTURA/2.1, 240, 80, 0, false, JANELA_LARGURA/2.25, JANELA_ALTURA/2.01, "JOGAR"};
+  Button btnPlay = {al_load_bitmap("./assets/menu/botao.png"), JANELA_LARGURA/2.6, JANELA_ALTURA/2.1, 240, 80, 0, JANELA_LARGURA/2.25, JANELA_ALTURA/2.01, "JOGAR"};
 
-  Button btnExit = {al_load_bitmap("./assets/menu/botao.png"), JANELA_LARGURA/2.6, JANELA_ALTURA/1.6, 240, 80, 0, false, JANELA_LARGURA/2.15, JANELA_ALTURA/1.55, "SAIR"};
+  Button btnExit = {al_load_bitmap("./assets/menu/botao.png"), JANELA_LARGURA/2.6, JANELA_ALTURA/1.6, 240, 80, 0, JANELA_LARGURA/2.15, JANELA_ALTURA/1.55, "SAIR"};
 
   do {
     while(!al_is_event_queue_empty(allegro->eventQueue)) {
