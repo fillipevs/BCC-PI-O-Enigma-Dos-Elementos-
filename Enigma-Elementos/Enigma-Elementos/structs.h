@@ -53,6 +53,7 @@ typedef struct {
   ALLEGRO_BITMAP* face;
   bool estaAtacando;
   float tempoAtacar;
+  bool alive;
   Tiro tiros[5];
 } Personagem;
 
@@ -72,7 +73,8 @@ Personagem heroi = {
   NULL, // sprite -> 141 / 3 = 47 -> largura; 194 / 4 = 48.5 -> altura;
   NULL, // face
   false, // está atacando
-  0 // tempo para atacar
+  0, // tempo para atacar
+  true // está vivo
 };
 
 Personagem earl = {
@@ -91,7 +93,8 @@ Personagem earl = {
   NULL, // sprite -> 37.5 -> largura; 41.42 -> altura;
   NULL, // face
   false, // está atacando
-  0 // tempo para atacar
+  0, // tempo para atacar
+  true // está vivo
 };
 
 Personagem king = {
@@ -110,13 +113,14 @@ Personagem king = {
   NULL, // sprite -> 37.5 -> largura; 41.42 -> altura;
   NULL, // face
   false, // está atacando
-  0 // tempo para atacar
+  0, // tempo para atacar
+  true // está vivo
 };
 
 Personagem bobOmb = {
   400, // posição x
   600, // posição y
-  50, // largura
+  49.5, // largura
   38, // altura
   1, // velocidade
   false, // cima
@@ -129,5 +133,6 @@ Personagem bobOmb = {
   NULL, // sprite
   NULL, // face
   false, // está atacando
-  0 // tempo para atacar
+  0, // tempo para atacar
+  true // está vivo
 };

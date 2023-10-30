@@ -87,3 +87,24 @@ bool mapCollision(Personagem* char1, MapSquare* square) {
 
 
 }
+
+bool enemyHit(Tiro* shot, Personagem* char1) {
+  if( 
+    (   
+      (shot->posX >= char1->posX && shot->posX <= char1->posX+char1->largura) || 
+      (shot->posX+shot->largura >= char1->posX && shot->posX+shot->largura <= char1->posX+char1->largura) 
+    )
+    && 
+    ( 
+      (shot->posY >= char1->posY && shot->posY <= char1->posY+char1->altura) ||
+      (shot->posY+shot->altura >= char1->posY && shot->posY+shot->altura <= char1->posY+char1->altura) 
+    )
+  ) {
+    shot->ativo = false;
+    al_destroy_bitmap(shot->image);
+    char1->alive = false;
+    return true;
+  } else {
+    return false;
+  }
+}

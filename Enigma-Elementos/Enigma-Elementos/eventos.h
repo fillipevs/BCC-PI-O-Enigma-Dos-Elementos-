@@ -6,18 +6,15 @@ void movimentacao(Personagem* character) {
     character->posY -= character->vel;
     character->frameAtualY = character->altura * 3; 
   } 
-  
-  if( character->indoBaixo ) {
+  else if( character->indoBaixo ) {
     character->posY += character->vel;
     character->frameAtualY = character->altura * 0; 
   }
-
-  if( character->indoDireita ) {
+  else if( character->indoDireita ) {
     character->posX += character->vel;
     character->frameAtualY = character->altura * 2; 
   }
-
-  if( character->indoEsquerda ) {
+  else if( character->indoEsquerda ) {
     character->posX -= character->vel;
     character->frameAtualY = character->altura * 1; 
   }
@@ -34,8 +31,8 @@ void atacar(int mx, int my) {
 
     for(int i = 0; i < 5; i++) {
       if( !heroi.tiros[i].ativo ) {
-        heroi.tiros[i].altura = 32;
-        heroi.tiros[i].largura = 32;
+        heroi.tiros[i].altura = 16;
+        heroi.tiros[i].largura = 16;
         heroi.tiros[i].angulo = angulo;
         heroi.tiros[i].ativo = true;
         heroi.tiros[i].posX = heroi.posX;

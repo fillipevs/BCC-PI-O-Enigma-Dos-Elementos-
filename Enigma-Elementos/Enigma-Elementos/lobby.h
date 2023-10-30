@@ -39,8 +39,9 @@ GAME_STATUS lobby(Allegro* allegro) {
             mapCollision(&heroi, &square1);
           }
 
-          
-          movi(); // movimentacao do bob-omb provisorio
+          if( bobOmb.alive ) {
+            movi(); // movimentacao do bob-omb provisorio
+          }
           if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
             movimentacao(&heroi); // movimentação do player por enquanto
           } else {
@@ -66,6 +67,9 @@ GAME_STATUS lobby(Allegro* allegro) {
           }
           else if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
             heroi.vel += 0.7;
+          }
+          else if ( event.keyboard.keycode == ALLEGRO_KEY_R ) {
+            bobOmb.alive = true; // testing hitEnemy
           }
           break;
 
@@ -112,7 +116,9 @@ GAME_STATUS lobby(Allegro* allegro) {
     al_draw_bitmap_region(heroi.sprite, heroi.largura * (int)heroi.frame, heroi.frameAtualY, heroi.largura, heroi.altura, heroi.posX, heroi.posY, 0); 
     al_draw_bitmap_region(king.sprite, king.largura * (int)king.frame, king.frameAtualY, king.largura, king.altura, king.posX, king.posY, 0); 
 
-    al_draw_bitmap_region(bobOmb.sprite, bobOmb.largura * (int)bobOmb.frame, bobOmb.frameAtualY, bobOmb.largura, bobOmb.altura, bobOmb.posX, bobOmb.posY, 0); 
+    if( bobOmb.alive ) {
+      al_draw_bitmap_region(bobOmb.sprite, bobOmb.largura * (int)bobOmb.frame, bobOmb.frameAtualY, bobOmb.largura, bobOmb.altura, bobOmb.posX, bobOmb.posY, 0); 
+    }
 
     for(int i = 0; i < 5; i++) {
       if( heroi.tiros[i].ativo && (heroi.tiros[i].posX > JANELA_LARGURA || heroi.tiros[i].posX < 0 || heroi.tiros[i].posY > JANELA_ALTURA || heroi.tiros[i].posY < 0) ) {
@@ -124,6 +130,7 @@ GAME_STATUS lobby(Allegro* allegro) {
         heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
         heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
         al_draw_bitmap(heroi.tiros[i].image, heroi.tiros[i].posX, heroi.tiros[i].posY, 0);
+        enemyHit(&heroi.tiros[i], &bobOmb);
       }
     }
 

@@ -4,7 +4,7 @@ int main () {
 
   Allegro allegro = init();
 
-  GAME_STATUS gameStatus = LOBBY;
+  GAME_STATUS gameStatus = MENU;
 
   while(!allegro.close) {
     switch (gameStatus)
