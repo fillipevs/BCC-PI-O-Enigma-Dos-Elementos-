@@ -125,7 +125,6 @@ GAME_STATUS prologue(Allegro* allegro) {
       }
 
       al_flip_display();
-      printf("counter: %d\n", counter);
       counter++;
     }
     

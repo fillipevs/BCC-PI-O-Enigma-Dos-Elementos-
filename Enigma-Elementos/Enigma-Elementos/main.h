@@ -16,6 +16,7 @@
 #include "menu.h"
 #include "prologue.h"
 #include "lobby.h"
+#include "collisions.h"
 
 Allegro init() {
   Allegro allegro;

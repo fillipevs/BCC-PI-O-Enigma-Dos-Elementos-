@@ -14,11 +14,17 @@ typedef struct {
   int width;
   int height;
   int frameX;
-  bool isActive;
   float textX;
   float textY;
   char text[30];
 } Button;
+
+typedef struct {
+  int x0;
+  int x1;
+  int y0;
+  int y1;
+} MapSquare;
 
 typedef struct {
   int posX;

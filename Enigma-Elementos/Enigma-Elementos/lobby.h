@@ -5,6 +5,10 @@ GAME_STATUS lobby(Allegro* allegro) {
   bool draw = false;
   bool done = false;
 
+  MapSquare square1 = {3, 975, 70, 170};
+  MapSquare square2 = {440, 520, 145, 360};
+  MapSquare square3 = {20, 1000, 325, 718};
+
   ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa/lobby.bmp");
   heroi.sprite = al_load_bitmap("./assets/heroi/andando.png");
   king.sprite = al_load_bitmap("./assets/npc/king.png");
@@ -24,6 +28,18 @@ GAME_STATUS lobby(Allegro* allegro) {
         case ALLEGRO_EVENT_TIMER:
           draw = true;
           al_get_mouse_state(&allegro->mouse);
+          characterCollision(&heroi, &bobOmb);
+          characterCollision(&heroi, &king);
+
+          if( heroi.posX >= 440 && heroi.posX <= 520 && heroi.posY+heroi.altura <= 325 && heroi.posY+heroi.altura >= 170) {
+            mapCollision(&heroi, &square2);
+          } else if( heroi.posY+heroi.altura >= 190 ) {
+            mapCollision(&heroi, &square3);
+          } else {
+            mapCollision(&heroi, &square1);
+          }
+
+          
           movi(); // movimentacao do bob-omb provisorio
           if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
             movimentacao(&heroi); // movimentação do player por enquanto
