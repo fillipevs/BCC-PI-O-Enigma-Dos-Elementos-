@@ -54,6 +54,7 @@ typedef struct {
   bool estaAtacando;
   float tempoAtacar;
   bool alive;
+  bool exploding;
   Tiro tiros[5];
 } Personagem;
 
@@ -74,7 +75,8 @@ Personagem heroi = {
   NULL, // face
   false, // está atacando
   0, // tempo para atacar
-  true // está vivo
+  true, // está vivo
+  false // está explodindo
 };
 
 Personagem earl = {
@@ -94,7 +96,8 @@ Personagem earl = {
   NULL, // face
   false, // está atacando
   0, // tempo para atacar
-  true // está vivo
+  true, // está vivo
+  false // está explodindo
 };
 
 Personagem king = {
@@ -114,25 +117,209 @@ Personagem king = {
   NULL, // face
   false, // está atacando
   0, // tempo para atacar
-  true // está vivo
+  true, // está vivo
+  false // está explodindo
 };
 
-Personagem bobOmb = {
-  400, // posição x
-  600, // posição y
-  49.5, // largura
-  38, // altura
-  1, // velocidade
-  false, // cima
-  false, // direita
-  false, // baixo
-  false, // esquerda
-  0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
-  4, // frame máximo
-  0, // frame atual y
-  NULL, // sprite
-  NULL, // face
-  false, // está atacando
-  0, // tempo para atacar
-  true // está vivo
+Personagem bobOmb[10] = {
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
+  {
+    400, // posição x
+    600, // posição y
+    49.5, // largura
+    38, // altura
+    1, // velocidade
+    false, // cima
+    false, // direita
+    false, // baixo
+    false, // esquerda
+    0.f, // frame -> 37.5 -> largura; 41.42 -> altura;
+    4, // frame máximo
+    0, // frame atual y
+    NULL, // sprite
+    NULL, // face
+    false, // está atacando
+    0, // tempo para atacar
+    true, // está vivo
+    false // está explodindo
+  },
 };

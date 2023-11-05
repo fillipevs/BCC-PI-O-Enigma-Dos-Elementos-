@@ -1,7 +1,8 @@
 Allegro init();
 void movimentacao(Personagem* character);
 void atacar(int mx, int my);
-void movi();
+void enemyMove(Personagem* enemy);
+void enemyExplosion(Personagem* enemy);
 bool characterCollision(Personagem* char1, Personagem* char2);
 bool mapCollision(Personagem* char1, MapSquare* square);
 bool enemyHit(Tiro* shot, Personagem* char1);

@@ -12,7 +12,6 @@ GAME_STATUS lobby(Allegro* allegro) {
   ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa/lobby.bmp");
   heroi.sprite = al_load_bitmap("./assets/heroi/andando.png");
   king.sprite = al_load_bitmap("./assets/npc/king.png");
-  bobOmb.sprite = al_load_bitmap("./assets/inimigos/bob-omb-0.png");
 
   do {
     while(!al_is_event_queue_empty(allegro->eventQueue)) {
@@ -28,9 +27,9 @@ GAME_STATUS lobby(Allegro* allegro) {
         case ALLEGRO_EVENT_TIMER:
           draw = true;
           al_get_mouse_state(&allegro->mouse);
-          characterCollision(&heroi, &bobOmb);
           characterCollision(&heroi, &king);
 
+        // colisão do herói com o mapa
           if( heroi.posX >= 440 && heroi.posX <= 520 && heroi.posY+heroi.altura <= 325 && heroi.posY+heroi.altura >= 170) {
             mapCollision(&heroi, &square2);
           } else if( heroi.posY+heroi.altura >= 190 ) {
@@ -39,17 +38,21 @@ GAME_STATUS lobby(Allegro* allegro) {
             mapCollision(&heroi, &square1);
           }
 
-          if( bobOmb.alive ) {
-            movi(); // movimentacao do bob-omb provisorio
+          for( int i = 0; i < 10; i++ ) {
+            if( bobOmb[i].alive ) {
+              enemyMove(&bobOmb[i]); // movimentacao dos bob-ombs
+            }
           }
           if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
-            movimentacao(&heroi); // movimentação do player por enquanto
+            movimentacao(&heroi); // movimentação do herói
           } else {
             heroi.frame = 1;
           }
           if( heroi.estaAtacando ) {
             atacar(allegro->mouse.x, allegro->mouse.y);
           }
+          if( heroi.tempoAtacar > -1 )
+            heroi.tempoAtacar -= 0.1;
           break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
@@ -67,9 +70,6 @@ GAME_STATUS lobby(Allegro* allegro) {
           }
           else if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
             heroi.vel += 0.7;
-          }
-          else if ( event.keyboard.keycode == ALLEGRO_KEY_R ) {
-            bobOmb.alive = true; // testing hitEnemy
           }
           break;
 
@@ -109,40 +109,47 @@ GAME_STATUS lobby(Allegro* allegro) {
     }
 
     if( draw ) {
-    draw = false;
-    al_clear_to_color(al_map_rgb(0 ,0 ,0 ));
-    al_draw_bitmap(lobby, 0, 0, 0);
+      draw = false;
+      al_clear_to_color(al_map_rgb(0 ,0 ,0 ));
+      al_draw_bitmap(lobby, 0, 0, 0);
 
-    al_draw_bitmap_region(heroi.sprite, heroi.largura * (int)heroi.frame, heroi.frameAtualY, heroi.largura, heroi.altura, heroi.posX, heroi.posY, 0); 
-    al_draw_bitmap_region(king.sprite, king.largura * (int)king.frame, king.frameAtualY, king.largura, king.altura, king.posX, king.posY, 0); 
+      al_draw_bitmap_region(heroi.sprite, heroi.largura * (int)heroi.frame, heroi.frameAtualY, heroi.largura, heroi.altura, heroi.posX, heroi.posY, 0); 
+      al_draw_bitmap_region(king.sprite, king.largura * (int)king.frame, king.frameAtualY, king.largura, king.altura, king.posX, king.posY, 0); 
 
-    if( bobOmb.alive ) {
-      al_draw_bitmap_region(bobOmb.sprite, bobOmb.largura * (int)bobOmb.frame, bobOmb.frameAtualY, bobOmb.largura, bobOmb.altura, bobOmb.posX, bobOmb.posY, 0); 
-    }
-
-    for(int i = 0; i < 5; i++) {
-      if( heroi.tiros[i].ativo && (heroi.tiros[i].posX > JANELA_LARGURA || heroi.tiros[i].posX < 0 || heroi.tiros[i].posY > JANELA_ALTURA || heroi.tiros[i].posY < 0) ) {
-        heroi.tiros[i].ativo = false;
-        al_destroy_bitmap(heroi.tiros[i].image);
+      for( int i = 0; i < 10; i++ ) {
+        if( bobOmb[i].exploding ) 
+          enemyExplosion(&bobOmb[i]);
+        if( bobOmb[i].alive ) {
+          al_draw_bitmap_region(bobOmb[i].sprite, bobOmb[i].largura * (int)bobOmb[i].frame, bobOmb[i].frameAtualY, bobOmb[i].largura, bobOmb[i].altura, bobOmb[i].posX, bobOmb[i].posY, 0); 
+          if(characterCollision(&bobOmb[i], &heroi))
+            bobOmb[i].exploding = true;
+        }
       }
 
-      if( heroi.tiros[i].ativo ) {
-        heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
-        heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
-        al_draw_bitmap(heroi.tiros[i].image, heroi.tiros[i].posX, heroi.tiros[i].posY, 0);
-        enemyHit(&heroi.tiros[i], &bobOmb);
-      }
-    }
+      for(int i = 0; i < 5; i++) {
+        if( heroi.tiros[i].ativo && (heroi.tiros[i].posX > JANELA_LARGURA || heroi.tiros[i].posX < 0 || heroi.tiros[i].posY > JANELA_ALTURA || heroi.tiros[i].posY < 0) ) {
+          heroi.tiros[i].ativo = false;
+          al_destroy_bitmap(heroi.tiros[i].image);
+        }
 
-    al_flip_display();
+        if( heroi.tiros[i].ativo ) {
+          heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
+          heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
+          al_draw_bitmap(heroi.tiros[i].image, heroi.tiros[i].posX, heroi.tiros[i].posY, 0);
+          for( int j = 0; j < 10; j++ ) {
+            if( bobOmb[j].alive && !bobOmb[j].exploding )
+              enemyHit(&heroi.tiros[i], &bobOmb[j]);
+          }
+        }
+      }
+      
+      al_flip_display();
     }
-    
   } while(!done);
 
   al_destroy_bitmap(lobby);  
   al_destroy_bitmap(heroi.sprite);  
   al_destroy_bitmap(king.sprite);  
-  al_destroy_bitmap(bobOmb.sprite);
   for(int i = 0; i < 5; i++) 
     al_destroy_bitmap(heroi.tiros[i].image);
 
