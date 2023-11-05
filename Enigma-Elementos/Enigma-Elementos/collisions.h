@@ -102,7 +102,7 @@ bool enemyHit(Tiro* shot, Personagem* char1) {
   ) {
     shot->ativo = false;
     al_destroy_bitmap(shot->image);
-    char1->alive = false;
+    char1->exploding = true;
     return true;
   } else {
     return false;

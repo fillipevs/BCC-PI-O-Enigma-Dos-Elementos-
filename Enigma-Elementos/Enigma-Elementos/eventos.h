@@ -43,8 +43,5 @@ void atacar(int mx, int my) {
     }
     
     heroi.tempoAtacar = 6;
-  } else {
-    heroi.tempoAtacar -= 0.1;
-  }
-
+  } 
 }
