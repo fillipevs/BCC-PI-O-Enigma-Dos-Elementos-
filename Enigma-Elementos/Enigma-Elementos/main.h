@@ -19,6 +19,7 @@
 #include "prologue.h"
 #include "lobby.h"
 #include "collisions.h"
+#include "interface.h"
 
 Allegro init() {
   Allegro allegro;
@@ -53,7 +54,7 @@ Allegro init() {
     al_register_event_source(allegro.eventQueue, al_get_keyboard_event_source());
     al_register_event_source(allegro.eventQueue, al_get_mouse_event_source());
     
-    al_start_timer(allegro.timer); 
+    al_start_timer(allegro.timer);
 
     for( int i = 0; i < 10; i++ ) {
       bobOmb[i].posX = rand() % 1200;

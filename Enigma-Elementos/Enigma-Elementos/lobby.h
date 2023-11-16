@@ -13,6 +13,14 @@ GAME_STATUS lobby(Allegro* allegro) {
   heroi.sprite = al_load_bitmap("./assets/heroi/andando.png");
   king.sprite = al_load_bitmap("./assets/npc/king.png");
   princess.sprite = al_load_bitmap("./assets/npc/princess.png");
+  ALLEGRO_BITMAP* heart = al_load_bitmap("./assets/heart.png");
+  ALLEGRO_BITMAP* e1 = al_load_bitmap("./assets/e1.png");
+  ALLEGRO_BITMAP* e2 = al_load_bitmap("./assets/e2.png");
+  ALLEGRO_BITMAP* e3 = al_load_bitmap("./assets/e3.png");
+  ALLEGRO_BITMAP* e4 = al_load_bitmap("./assets/e4.png");
+  ALLEGRO_BITMAP* fireball = al_load_bitmap("./assets/fireball.png");
+  ALLEGRO_BITMAP* mouseLeft = al_load_bitmap("./assets/mouse-left.png");
+  ALLEGRO_BITMAP* mouseRight = al_load_bitmap("./assets/mouse-right.png");
 
   do {
     while(!al_is_event_queue_empty(allegro->eventQueue)) {
@@ -128,8 +136,10 @@ GAME_STATUS lobby(Allegro* allegro) {
           enemyExplosion(&bobOmb[i]);
         if( bobOmb[i].alive ) {
           al_draw_bitmap_region(bobOmb[i].sprite, bobOmb[i].largura * (int)bobOmb[i].frame, bobOmb[i].frameAtualY, bobOmb[i].largura, bobOmb[i].altura, bobOmb[i].posX, bobOmb[i].posY, 0); 
-          if(characterCollision(&bobOmb[i], &heroi))
+          if(characterCollision(&bobOmb[i], &heroi)) {
             bobOmb[i].exploding = true;
+            heroi.lifes--;
+          }
         }
       }
 
@@ -150,6 +160,8 @@ GAME_STATUS lobby(Allegro* allegro) {
         }
       }
       
+      interface(heart, fireball, e1, mouseLeft, mouseRight);
+
       al_flip_display();
     }
   } while(!done);
@@ -158,6 +170,14 @@ GAME_STATUS lobby(Allegro* allegro) {
   al_destroy_bitmap(heroi.sprite);  
   al_destroy_bitmap(king.sprite);  
   al_destroy_bitmap(princess.sprite);  
+  al_destroy_bitmap(heart);
+  al_destroy_bitmap(e1);
+  al_destroy_bitmap(e2);
+  al_destroy_bitmap(e3);
+  al_destroy_bitmap(e4);
+  al_destroy_bitmap(fireball);
+  al_destroy_bitmap(mouseLeft);
+  al_destroy_bitmap(mouseRight);
   for(int i = 0; i < 5; i++) 
     al_destroy_bitmap(heroi.tiros[i].image);
 

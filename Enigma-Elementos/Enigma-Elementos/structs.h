@@ -55,6 +55,7 @@ typedef struct {
   float tempoAtacar;
   bool alive;
   bool exploding;
+  int lifes;
   Tiro tiros[5];
 } Personagem;
 
@@ -76,7 +77,8 @@ Personagem heroi = {
   false, // está atacando
   0, // tempo para atacar
   true, // está vivo
-  false // está explodindo
+  false, // está explodindo
+  5, // qtd de vidas
 };
 
 Personagem earl = {
