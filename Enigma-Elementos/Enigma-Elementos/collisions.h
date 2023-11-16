@@ -1,6 +1,7 @@
 #include "funcoes.h"
 
 bool characterCollision(Personagem* char1, Personagem* char2) {
+  if( char1->exploding || char2->exploding ) return false;
 
   if( 
     (   

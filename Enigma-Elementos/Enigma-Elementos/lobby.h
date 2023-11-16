@@ -5,13 +5,14 @@ GAME_STATUS lobby(Allegro* allegro) {
   bool draw = false;
   bool done = false;
 
-  MapSquare square1 = {3, 975, 70, 170};
+  MapSquare square1 = {120, 975, 70, 170};
   MapSquare square2 = {440, 520, 145, 360};
   MapSquare square3 = {20, 1000, 325, 718};
 
   ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa/lobby.bmp");
   heroi.sprite = al_load_bitmap("./assets/heroi/andando.png");
   king.sprite = al_load_bitmap("./assets/npc/king.png");
+  princess.sprite = al_load_bitmap("./assets/npc/princess.png");
 
   do {
     while(!al_is_event_queue_empty(allegro->eventQueue)) {
@@ -27,7 +28,8 @@ GAME_STATUS lobby(Allegro* allegro) {
         case ALLEGRO_EVENT_TIMER:
           draw = true;
           al_get_mouse_state(&allegro->mouse);
-          characterCollision(&heroi, &king);
+          characterCollision(&king, &heroi);
+          characterCollision(&princess, &heroi);
 
         // colisão do herói com o mapa
           if( heroi.posX >= 440 && heroi.posX <= 520 && heroi.posY+heroi.altura <= 325 && heroi.posY+heroi.altura >= 170) {
@@ -113,8 +115,13 @@ GAME_STATUS lobby(Allegro* allegro) {
       al_clear_to_color(al_map_rgb(0 ,0 ,0 ));
       al_draw_bitmap(lobby, 0, 0, 0);
 
+      al_draw_ellipse(80, 113, 45, 35, al_map_rgb(70,130,180), 5);
+      al_draw_ellipse(80, 113, 50, 40, al_map_rgb(79,79,79), 5);
+      al_draw_ellipse(80, 113, 55, 45, al_map_rgb(192,192,192), 5);
+
       al_draw_bitmap_region(heroi.sprite, heroi.largura * (int)heroi.frame, heroi.frameAtualY, heroi.largura, heroi.altura, heroi.posX, heroi.posY, 0); 
       al_draw_bitmap_region(king.sprite, king.largura * (int)king.frame, king.frameAtualY, king.largura, king.altura, king.posX, king.posY, 0); 
+      al_draw_bitmap_region(princess.sprite, princess.largura * (int)princess.frame, princess.frameAtualY, princess.largura, princess.altura, princess.posX, princess.posY, 0); 
 
       for( int i = 0; i < 10; i++ ) {
         if( bobOmb[i].exploding ) 
@@ -150,6 +157,7 @@ GAME_STATUS lobby(Allegro* allegro) {
   al_destroy_bitmap(lobby);  
   al_destroy_bitmap(heroi.sprite);  
   al_destroy_bitmap(king.sprite);  
+  al_destroy_bitmap(princess.sprite);  
   for(int i = 0; i < 5; i++) 
     al_destroy_bitmap(heroi.tiros[i].image);
 

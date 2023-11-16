@@ -7,6 +7,7 @@
 #include <allegro5/allegro_image.h> 
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_primitives.h>
 
 #include "constantes.h"
 #include "structs.h"
@@ -36,6 +37,7 @@ Allegro init() {
 
     al_init_font_addon();
     al_init_ttf_addon();
+    al_init_primitives_addon();
 
     allegro.font[0] = al_load_font("./assets/fonts/inter-bold.ttf", 32, 0);
     allegro.font[1] = al_load_font("./assets/fonts/inter-bold.ttf", 26, 0);

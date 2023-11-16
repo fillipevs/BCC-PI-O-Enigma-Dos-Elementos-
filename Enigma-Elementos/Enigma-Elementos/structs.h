@@ -121,6 +121,27 @@ Personagem king = {
   false // está explodindo
 };
 
+Personagem princess = {
+  55, // posição x
+  70, // posição y
+  48.3, // largura
+  48, // altura
+  1.3, // velocidade
+  false, // cima
+  false, // direita
+  false, // baixo
+  false, // esquerda
+  0, // frame 
+  3, // frame máximo
+  96, // frame atual y
+  NULL, // sprite -> 37.5 -> largura; 41.42 -> altura;
+  NULL, // face
+  false, // está atacando
+  0, // tempo para atacar
+  true, // está vivo
+  false // está explodindo
+};
+
 Personagem bobOmb[10] = {
   {
     400, // posição x
