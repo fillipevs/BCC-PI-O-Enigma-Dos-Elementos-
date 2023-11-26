@@ -20,11 +20,45 @@ typedef struct {
 } Button;
 
 typedef struct {
+  ALLEGRO_BITMAP* attack1Img;
+  ALLEGRO_BITMAP* attack2Img;
+  ALLEGRO_BITMAP* heart;
+  ALLEGRO_BITMAP* interactBtnImg;
+  ALLEGRO_BITMAP* mouseBtnLeftImg;
+  ALLEGRO_BITMAP* mouseBtnRightImg;
+  SlotType attack1SlotType;
+  SlotType attack2SlotType;
+} Interface;
+
+typedef struct {
+  GAME_STATUS_TYPE coming;
+  GAME_STATUS_TYPE going;
+} GameStatus;
+
+typedef struct {
+  int posX;
+  int posY;
+  SlotType name;
+} Crystal;
+
+typedef struct {
+  bool chumbo;
+  bool prata;
+  bool mercurio;
+  bool verificar;
+} Barreira;
+
+typedef struct {
   int x0;
   int x1;
   int y0;
   int y1;
 } MapSquare;
+
+typedef struct {
+  bool fireball;
+  bool element;
+} AttackType;
 
 typedef struct {
   int posX;
@@ -34,6 +68,7 @@ typedef struct {
   int largura;
   ALLEGRO_BITMAP* image;
   bool ativo;
+  AttackType type;
 } Tiro;
 
 typedef struct {
@@ -51,7 +86,7 @@ typedef struct {
   int frameAtualY;
   ALLEGRO_BITMAP* sprite; 
   ALLEGRO_BITMAP* face;
-  bool estaAtacando;
+  AttackType estaAtacando;
   float tempoAtacar;
   bool alive;
   bool exploding;
@@ -74,7 +109,7 @@ Personagem heroi = {
   145, // frame atual y
   NULL, // sprite -> 141 / 3 = 47 -> largura; 194 / 4 = 48.5 -> altura;
   NULL, // face
-  false, // está atacando
+  {false, false}, // está atacando
   0, // tempo para atacar
   true, // está vivo
   false, // está explodindo
@@ -96,7 +131,7 @@ Personagem earl = {
   144, // frame atual y
   NULL, // sprite -> 37.5 -> largura; 41.42 -> altura;
   NULL, // face
-  false, // está atacando
+  {false, false}, // está atacando
   0, // tempo para atacar
   true, // está vivo
   false // está explodindo
@@ -117,7 +152,7 @@ Personagem king = {
   48, // frame atual y
   NULL, // sprite -> 37.5 -> largura; 41.42 -> altura;
   NULL, // face
-  false, // está atacando
+  {false, false}, // está atacando
   0, // tempo para atacar
   true, // está vivo
   false // está explodindo
@@ -138,7 +173,7 @@ Personagem princess = {
   96, // frame atual y
   NULL, // sprite -> 37.5 -> largura; 41.42 -> altura;
   NULL, // face
-  false, // está atacando
+  {false, false}, // está atacando
   0, // tempo para atacar
   true, // está vivo
   false // está explodindo
@@ -160,7 +195,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo
@@ -180,7 +215,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo
@@ -200,7 +235,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo
@@ -220,7 +255,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo
@@ -240,7 +275,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo
@@ -260,7 +295,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo
@@ -280,7 +315,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo
@@ -300,7 +335,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo
@@ -320,7 +355,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo
@@ -340,7 +375,7 @@ Personagem bobOmb[10] = {
     0, // frame atual y
     NULL, // sprite
     NULL, // face
-    false, // está atacando
+    {false, false}, // está atacando
     0, // tempo para atacar
     true, // está vivo
     false // está explodindo

@@ -1,7 +1,6 @@
 #include "funcoes.h"
 
-GAME_STATUS menu(Allegro* allegro) {
-  GAME_STATUS gameStatus = MENU;
+void menu(Allegro* allegro, GameStatus* gameStatus) {
   bool draw = false;
   bool done = false;
 
@@ -19,7 +18,7 @@ GAME_STATUS menu(Allegro* allegro) {
       {
       case ALLEGRO_EVENT_DISPLAY_CLOSE: 
         done = true;
-        gameStatus = EXIT;
+        gameStatus->going = EXIT;
         break;
       case ALLEGRO_EVENT_TIMER:
           draw = true;
@@ -40,14 +39,15 @@ GAME_STATUS menu(Allegro* allegro) {
           btnPlay.frameX = 0;
           btnPlay.textY -= 10;
           done = true;
-          gameStatus = PROLOGUE;
+          gameStatus->going = PROLOGUE;
+          gameStatus->coming = MENU;
         } 
 
         if( btnExit.frameX != 0 ) {
           btnExit.frameX = 0;
           btnExit.textY -= 10;
           done = true;
-          gameStatus = EXIT;
+          gameStatus->going = EXIT;
         } 
         break;
       
@@ -75,6 +75,4 @@ GAME_STATUS menu(Allegro* allegro) {
   al_destroy_bitmap(menu);  
   al_destroy_bitmap(btnPlay.image);
   al_destroy_bitmap(btnExit.image);
-
-  return gameStatus;
 }

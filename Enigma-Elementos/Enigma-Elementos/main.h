@@ -18,6 +18,9 @@
 #include "menu.h"
 #include "prologue.h"
 #include "lobby.h"
+#include "water.h"
+#include "fire.h"
+#include "grass.h"
 #include "collisions.h"
 #include "interface.h"
 
