@@ -76,7 +76,7 @@ void enemyExplosion(Personagem* enemy) {
     enemy->frame -= enemy->frameMax;
     enemy->frameAtualY += enemy->altura;
 
-    if(enemy->frameAtualY > enemy->altura) {
+    if(enemy->frameAtualY > enemy->altura && enemy->alive) {
       enemy->alive = false;
       enemy->exploding = false;
       al_destroy_bitmap(enemy->sprite);

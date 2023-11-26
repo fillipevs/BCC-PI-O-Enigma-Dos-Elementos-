@@ -90,6 +90,8 @@ bool mapCollision(Personagem* char1, MapSquare* square) {
 }
 
 bool enemyHit(Tiro* shot, Personagem* char1) {
+  if( shot->type.element ) return false;
+
   if( 
     (   
       (shot->posX >= char1->posX && shot->posX <= char1->posX+char1->largura) || 
@@ -101,11 +103,36 @@ bool enemyHit(Tiro* shot, Personagem* char1) {
       (shot->posY+shot->altura >= char1->posY && shot->posY+shot->altura <= char1->posY+char1->altura) 
     )
   ) {
+    if( shot->ativo ) {
+      al_destroy_bitmap(shot->image);
+    }
     shot->ativo = false;
-    al_destroy_bitmap(shot->image);
     char1->exploding = true;
     return true;
   } else {
     return false;
   }
+}
+
+bool barreiraHit(Tiro* shot, MapSquare* square) {
+  if( shot->type.fireball ) return false;
+
+  if( 
+    (   
+      (shot->posX >= square->x0 && shot->posX <= square->x1) || 
+      (shot->posX+shot->largura >= square->x0 && shot->posX+shot->largura <= square->x1) 
+    )
+    && 
+    ( 
+      (shot->posY >= square->y0 && shot->posY <= square->y1) ||
+      (shot->posY+shot->altura >= square->y1 && shot->posY+shot->altura <= square->y1) 
+    )
+  ) {
+    if( shot->ativo ) {
+      al_destroy_bitmap(shot->image);
+    }
+    shot->ativo = false;
+    return true;
+  }
+  return false;
 }

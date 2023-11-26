@@ -3,8 +3,7 @@
 void earlGoToHero(int counter, bool *alreadyTalked);
 void earlAndHeroGoToKing(int counter, bool *alreadyTalked);
 
-GAME_STATUS prologue(Allegro* allegro) {
-  GAME_STATUS gameStatus = PROLOGUE;
+void prologue(Allegro* allegro, GameStatus* gameStatus) {
   bool draw = false;
   bool done = false;
   bool alreadyTalked = true;
@@ -12,10 +11,11 @@ GAME_STATUS prologue(Allegro* allegro) {
   ALLEGRO_BITMAP* home = al_load_bitmap("./assets/mapa/home.bmp");
   ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa/lobby.bmp");
   heroi.sprite = al_load_bitmap("./assets/heroi/andando.png");
-  heroi.face = al_load_bitmap("./assets/heroi/face.png");
   earl.sprite = al_load_bitmap("./assets/npc/earl.png");
-  earl.face = al_load_bitmap("./assets/npc/earl-face.png");
   king.sprite = al_load_bitmap("./assets/npc/king.png");
+  princess.sprite = al_load_bitmap("./assets/npc/princess.png");
+  heroi.face = al_load_bitmap("./assets/heroi/face.png");
+  earl.face = al_load_bitmap("./assets/npc/earl-face.png");
   king.face = al_load_bitmap("./assets/npc/king-face.png");
 
   int counter = 0;
@@ -28,7 +28,7 @@ GAME_STATUS prologue(Allegro* allegro) {
       switch(event.type) {
         case ALLEGRO_EVENT_DISPLAY_CLOSE: 
           done = true;
-          gameStatus = EXIT;
+          gameStatus->going = EXIT;
           break;
 
         case ALLEGRO_EVENT_TIMER:
@@ -46,18 +46,6 @@ GAME_STATUS prologue(Allegro* allegro) {
             earl.frame = 1;
           }
           break;
-
-        case ALLEGRO_EVENT_KEY_DOWN:
-          break;
-
-        case ALLEGRO_EVENT_KEY_UP:
-          break;
-
-        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-          break;
-
-        case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-          break;
         
         default: 
           break;
@@ -71,6 +59,10 @@ GAME_STATUS prologue(Allegro* allegro) {
         al_draw_bitmap(home, 0, 0, 0);
       else {
         al_draw_bitmap(lobby, 0, 0, 0);
+        al_draw_ellipse(80, 113, 45, 35, al_map_rgb(70,130,180), 5);
+        al_draw_ellipse(80, 113, 50, 40, al_map_rgb(79,79,79), 5);
+        al_draw_ellipse(80, 113, 55, 45, al_map_rgb(192,192,192), 5);
+        al_draw_bitmap_region(princess.sprite, princess.largura * (int)princess.frame, princess.frameAtualY, princess.largura, princess.altura, princess.posX, princess.posY, 0); 
         al_draw_bitmap_region(king.sprite, king.largura * (int)king.frame, king.frameAtualY, king.largura, king.altura, king.posX, king.posY, 0); 
       }
 
@@ -84,44 +76,27 @@ GAME_STATUS prologue(Allegro* allegro) {
         earlAndHeroGoToKing(counter, &alreadyTalked); 
       else {
         done = true; 
-        gameStatus = LOBBY;
+        gameStatus->going = LOBBY;
+        gameStatus->coming = PROLOGUE;
       }
 
       // Earl talking to Hero
       if( !alreadyTalked && counter <= 631 ) {
         alreadyTalked = true;
-        dialogBox(allegro, "Senhor Alex, o Rei deseja vê-lo imediatamente. Há assuntos de extrema importância a serem discutidos.", &earl);
-        dialogBox(allegro, "O Rei deseja me ver? O que está acontecendo, Conde?", &heroi);
-        dialogBox(allegro, "Na noite passada, Sua Majestade recebeu notícias perturbadoras. A Princesa desapareceu misteriosamente de seus aposentos. O Rei acredita que você pode ser a chave para desvendar esse enigma.", &earl);
-        dialogBox(allegro, "Desapareceu? Como isso pode ter acontecido? Estou à disposição do Rei, é claro. Onde ele deseja que eu me encontre com ele?", &heroi);
-        dialogBox(allegro, "Sua Majestade o aguarda no Salão do Trono. Ele acredita que você pode lançar luz sobre esse mistério. Por favor, siga-me.", &earl);
-        dialogBox(allegro, "O Rei confia em sua habilidade, Senhor Alex. Vamos, não há tempo a perder.", &earl);
-        dialogBox(allegro, "Eu irei imediatamente.", &heroi);
+        dialogBox(allegro, "Senhor Alex, urgência! A Princesa está aprisionada por uma barreira alquímica!", &earl);
+        dialogBox(allegro, "O quê? Como isso aconteceu, Conde? Preciso agir rápido. Onde ela está?", &heroi);
+        dialogBox(allegro, "Na sala de feitiços, vamos o mais rápido possível.", &earl);
+        dialogBox(allegro, "Vamos!! Pode contar comigo.", &heroi);
       }  
       // King talking to Earl and Hero
       else if( !alreadyTalked && counter <= 2161 ) {
-        dialogBox(allegro, "Conde, Alex, agradeço por terem vindo. Temos um assunto de extrema urgência para tratar.", &king);
         dialogBox(allegro, "Sua Majestade, aqui está o jovem Alex, conforme solicitado.", &earl);
-        dialogBox(allegro, "Sua Majestade, estou à disposição para ajudar a resolver o desaparecimento da Princesa. É um mistério que precisamos resolver rapidamente.", &heroi);
-        dialogBox(allegro, "Eu estou ciente disso, Alex. A Princesa é a minha filha, e seu sumiço é um golpe em meu coração. Conde, você acha que ele pode ser útil nesta investigação?", &king);
-        dialogBox(allegro, "Sim, Sua Majestade, Alex é uma pessoa de confiança e habilidosa. Tenho certeza de que ele pode lançar luz sobre o que aconteceu.", &earl);
-        dialogBox(allegro, "Sua Majestade, farei o meu melhor para encontrá-la. Por favor, me conte tudo o que você sabe sobre a noite do desaparecimento.", &heroi);
-        dialogBox(allegro, "Conde, por favor, nos dê um momento de privacidade. Há assuntos que devo discutir com Alex a sós.", &king);
-        dialogBox(allegro, "Claro, Sua Majestade.", &earl);
+        dialogBox(allegro, "Conde, Alex, agradeço por terem vindo. Precisamos tirar a princesa daquela barreira urgente!!", &king);
       }
       // King talking to Hero
       else if( !alreadyTalked && counter > 2161 && counter <= 2162 ) {
-        dialogBox(allegro, "Alex, há coisas que não posso compartilhar com todos na corte. O que aconteceu é mais grave do que todos imaginam.", &king);
-        dialogBox(allegro, "Sua Majestade, estou pronto para ouvir. Por favor, me conte o que aconteceu com a Princesa.", &heroi);
-        dialogBox(allegro, "A Princesa não foi simplesmente desaparecida, Alex. Ela foi sequestrada por forças sombrias que desejam poder sobre nossos reinos. Eles exigem os três Cristais Elementais em troca de sua vida.", &king);
-        dialogBox(allegro, "Entendo, Sua Majestade. O que devo fazer para trazer a Princesa de volta?", &heroi);
-        dialogBox(allegro, "Você deve partir imediatamente em busca dos três Cristais Elementais: Fogo, Água e Planta. Cada um deles é guardado por um Guardião. Eles são poderosos e protegem os cristais com todas as suas forças.", &king);
-        dialogBox(allegro, "Eu farei isso, Sua Majestade. Onde posso encontrar os Guardiões e os cristais?", &heroi);
-        dialogBox(allegro, "Os Guardiões estão nos Reinos do Fogo, da Água e da Planta.", &king);
-        dialogBox(allegro, "O primeiro é o Guardião do Fogo, no vulcão a leste. O segundo é o Guardião da Água, nas profundezas do lago a oeste. E o terceiro é o Guardião da Planta, na floresta ao sul.", &king);
-        dialogBox(allegro, "Você precisará enfrentá-los e trazer os cristais de volta a mim.", &king);
-        dialogBox(allegro, "Entendi, Sua Majestade. Não vou falhar. Eu juro trazer a Princesa de volta e recuperar os cristais.", &heroi);
-        dialogBox(allegro, "Muito bem, Alex. Este é um fardo pesado, mas tenho confiança em suas habilidades. Que a sorte esteja com você. Agora, vá e comece sua jornada imediatamente.", &king);
+        dialogBox(allegro, "Sua Majestade, antes de tudo, preciso examinar a barreira para determinar quais substâncias serão necessárias para quebrá-la.", &heroi);
+        dialogBox(allegro, "Por favor, faça o que for necessário, Alex. Minha filha precisa ser liberta dessa prisão mágica.", &king);
       }
 
       al_flip_display();
@@ -136,10 +111,9 @@ GAME_STATUS prologue(Allegro* allegro) {
   al_destroy_bitmap(heroi.face);  
   al_destroy_bitmap(earl.face);  
   al_destroy_bitmap(king.face);  
+  al_destroy_bitmap(princess.sprite);  
   al_destroy_bitmap(home);  
   al_destroy_bitmap(lobby);  
-
-  return gameStatus;
 }
 
 void earlGoToHero(int counter, bool *alreadyTalked) {

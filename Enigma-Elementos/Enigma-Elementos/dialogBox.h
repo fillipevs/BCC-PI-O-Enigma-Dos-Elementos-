@@ -16,21 +16,9 @@ void dialogBox(Allegro* allegro, char string[], Personagem* character) {
           done = true;
           break;
 
-        case ALLEGRO_EVENT_TIMER:
-          break;
-
         case ALLEGRO_EVENT_KEY_DOWN:
           if( event.keyboard.keycode == ALLEGRO_KEY_ENTER || event.keyboard.keycode == ALLEGRO_KEY_SPACE)
             done = true;
-          break;
-
-        case ALLEGRO_EVENT_KEY_UP:
-          break;
-
-        case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-          break;
-
-        case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
           break;
         
         default: 

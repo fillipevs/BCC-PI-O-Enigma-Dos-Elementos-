@@ -7,5 +7,15 @@ typedef enum {
   MENU,
   PROLOGUE,
   LOBBY,
+  WATER,
+  FIRE,
+  GRASS,
   EXIT,
-} GAME_STATUS;
+} GAME_STATUS_TYPE;
+
+typedef enum {
+  EMPTY,
+  FIREBALL,
+  ACIDO_CLORIDRICO,
+  HIDROXIDO_AMONIO,
+} SlotType;
