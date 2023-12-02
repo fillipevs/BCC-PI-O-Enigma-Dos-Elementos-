@@ -58,12 +58,6 @@ Allegro init() {
     al_register_event_source(allegro.eventQueue, al_get_mouse_event_source());
     
     al_start_timer(allegro.timer);
-
-    for( int i = 0; i < 10; i++ ) {
-      bobOmb[i].posX = rand() % 1200;
-      bobOmb[i].posY = rand() % 720;
-      bobOmb[i].sprite = al_load_bitmap("./assets/inimigos/bob-omb-0.png");
-    }
   }
 
   return allegro;

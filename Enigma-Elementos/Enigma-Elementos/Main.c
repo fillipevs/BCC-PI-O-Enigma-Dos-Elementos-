@@ -17,7 +17,7 @@ int main () {
   interface.mouseBtnLeftImg = al_load_bitmap("./assets/mouse-left.png");
   interface.mouseBtnRightImg = al_load_bitmap("./assets/mouse-right.png");
   interface.attack1SlotType = FIREBALL;
-  interface.attack1Img = al_load_bitmap("./assets/fireball.png");
+  interface.attack1Img = al_load_bitmap("./assets/power.png");
   interface.attack2SlotType = EMPTY;
   interface.attack2Img = al_load_bitmap("./assets/slotEmpty.png");
   interface.interactBtnImg = al_load_bitmap("./assets/pressE.png");

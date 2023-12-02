@@ -5,13 +5,18 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
   bool done = false;
   bool talkAboutElement = false;
   float heroCrystalDistance = 0.0f;
+  float heroBobOmbDistance = 0.0f;
+
+  int enemyAmount = 18;
+  Personagem bobOmb[18];
+  createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
   MapSquare square1 = {-10, 190, 230, 670};
   MapSquare square2 = {139, 830, 230, 710};
   MapSquare square3 = {397, 730, 158, 245};
 
   Crystal crystal;
-  crystal.name = HIDROXIDO_AMONIO;
+  crystal.name = VERIFICATION;
   crystal.posX = 767;
   crystal.posY = 192;
 
@@ -45,7 +50,7 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
             mapCollision(&heroi, &square3);
           }
 
-          for( int i = 0; i < 10; i++ ) {
+          for( int i = 0; i < enemyAmount; i++ ) {
             if( bobOmb[i].alive ) {
               enemyMove(&bobOmb[i]); // movimentacao dos bob-ombs
             }
@@ -147,12 +152,13 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY-20, 0);
       }
 
-      for( int i = 0; i < 10; i++ ) {
+      for( int i = 0; i < enemyAmount; i++ ) {
         if( bobOmb[i].exploding ) 
           enemyExplosion(&bobOmb[i]);
         if( bobOmb[i].alive ) {
           al_draw_bitmap_region(bobOmb[i].sprite, bobOmb[i].largura * (int)bobOmb[i].frame, bobOmb[i].frameAtualY, bobOmb[i].largura, bobOmb[i].altura, bobOmb[i].posX, bobOmb[i].posY, 0); 
-          if(characterCollision(&bobOmb[i], &heroi)) {
+          heroBobOmbDistance = sqrt( pow( (heroi.posX+heroi.largura/2) - (bobOmb[i].posX+bobOmb[i].largura/2), 2) + pow( (heroi.posY+heroi.altura/2) - (bobOmb[i].posY+bobOmb[i].altura/2), 2) );
+          if(heroBobOmbDistance < 30 && !bobOmb[i].exploding) {
             bobOmb[i].exploding = true;
             heroi.lifes--;
           }
@@ -160,16 +166,27 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
       }
 
       for(int i = 0; i < 5; i++) {
-        if( heroi.tiros[i].ativo && (heroi.tiros[i].posX > JANELA_LARGURA || heroi.tiros[i].posX < 0 || heroi.tiros[i].posY > JANELA_ALTURA || heroi.tiros[i].posY < 0) ) {
-          heroi.tiros[i].ativo = false;
-          al_destroy_bitmap(heroi.tiros[i].image);
+        if( heroi.tiros[i].isExploding ) {
+          shotExploding(&heroi.tiros[i]);
         }
 
         if( heroi.tiros[i].ativo ) {
-          heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
-          heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
-          al_draw_bitmap(heroi.tiros[i].image, heroi.tiros[i].posX, heroi.tiros[i].posY, 0);
-          for( int j = 0; j < 10; j++ ) {
+          al_draw_bitmap_region(heroi.tiros[i].image, heroi.tiros[i].largura * (int)heroi.tiros[i].frame, 0, heroi.tiros[i].largura, heroi.tiros[i].altura, heroi.tiros[i].posX, heroi.tiros[i].posY, 0);
+
+          if( !heroi.tiros[i].isExploding ) {
+            heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
+            heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
+          }
+
+          if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 0 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 190 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 230 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 670) {
+            shotCollision(&heroi.tiros[i], &square1);
+          } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 139 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 830 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 230 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 710) { 
+            shotCollision(&heroi.tiros[i], &square2);
+          } else {
+            shotCollision(&heroi.tiros[i], &square3);
+          }
+
+          for( int j = 0; j < enemyAmount; j++ ) {
             if( bobOmb[j].alive && !bobOmb[j].exploding )
               enemyHit(&heroi.tiros[i], &bobOmb[j]);
           }
@@ -180,6 +197,7 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
       if( talkAboutElement ) {
         talkAboutElement = false;
         dialogBox(allegro, "Ácido nítrico, Cromato de potássio e Amônia. Os últimos que faltavam!!", &heroi);
+        createEnemies(bobOmb, enemyAmount, TAKE_ELEMENT, gameStatus);
       }
 
       al_flip_display();
@@ -189,10 +207,6 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
   al_destroy_bitmap(fogo);  
   al_destroy_bitmap(heroi.sprite);
   al_destroy_bitmap(heroi.face);
-  for(int i = 0; i < 5; i++) {
-    if( !heroi.tiros[i].ativo )
-      break;
-    al_destroy_bitmap(heroi.tiros[i].image);
-    heroi.tiros[i].ativo = false;
-  }
+  destroyEnemies(bobOmb, enemyAmount);
+  destroyShots(heroi.tiros);
 } 

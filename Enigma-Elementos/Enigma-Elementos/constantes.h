@@ -18,4 +18,10 @@ typedef enum {
   FIREBALL,
   ACIDO_CLORIDRICO,
   HIDROXIDO_AMONIO,
+  VERIFICATION,
 } SlotType;
+
+typedef enum {
+  START,
+  TAKE_ELEMENT
+} SpawnType;

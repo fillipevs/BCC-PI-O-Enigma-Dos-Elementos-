@@ -83,3 +83,50 @@ void enemyExplosion(Personagem* enemy) {
     }
   }
 }
+
+void destroyEnemies(Personagem bobOmb[], int size) {
+  for( int i = 0; i < size; i++ ) {
+    if( bobOmb[i].alive ) {
+      al_destroy_bitmap(bobOmb[i].sprite);
+    }
+  }
+}
+
+void createEnemies(Personagem bobOmb[], int size, SpawnType spawnType, GameStatus* gameStatus) {
+  for( int i = 0; i < size; i++ ) {
+    if( (!bobOmb[i].alive && spawnType == TAKE_ELEMENT) || (spawnType == START)) {
+      switch (gameStatus->going)
+      {
+      case GRASS:
+        bobOmb[i].posX = spawnType == START ? rand() % 752 + 119 : rand() % 752 + 119;
+        bobOmb[i].posY = spawnType == START ? rand() % 601 + 114 : rand() % 715 + 715;
+        break;
+      case WATER:
+        bobOmb[i].posX = spawnType == START ? rand() % 790 + 137 : rand() % 790 + 137;
+        bobOmb[i].posY = spawnType == START ? rand() % 356 + 100 : rand() % 356 + 100;
+        break;
+      case FIRE:
+        bobOmb[i].posX = spawnType == START ? rand() % 605 + 170 : rand() % 605 - 675;
+        bobOmb[i].posY = spawnType == START ? rand() % 453 + 200 : rand() % 453 + 200;
+        break;
+      default:
+        bobOmb[i].posX = spawnType == START ? rand() % 752 + 119 : rand() % 752 + 119;
+        bobOmb[i].posY = spawnType == START ? rand() % 601 + 114 : rand() % 715 + 715;
+        break;
+      }
+      bobOmb[i].largura = 49.5;
+      bobOmb[i].altura = 38;
+      bobOmb[i].vel = 1.25;
+      bobOmb[i].indoCima = false;
+      bobOmb[i].indoDireita = false;
+      bobOmb[i].indoBaixo = false;
+      bobOmb[i].indoEsquerda = false;
+      bobOmb[i].frame = 0.0f;
+      bobOmb[i].frameMax = 4;
+      bobOmb[i].frameAtualY = 0;
+      bobOmb[i].alive = true;
+      bobOmb[i].exploding = false;
+      bobOmb[i].sprite = al_load_bitmap("./assets/inimigos/bob-omb-1.png");
+    } 
+  }
+}
