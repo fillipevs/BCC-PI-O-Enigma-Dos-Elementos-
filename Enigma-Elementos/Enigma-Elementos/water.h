@@ -171,12 +171,6 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
         }
       }
 
-      al_draw_rectangle(square1.x0, square1.y0, square1.x1, square1.y1, al_map_rgb(255,0,0), 1);
-      al_draw_rectangle(square2.x0, square2.y0, square2.x1, square2.y1, al_map_rgb(255,0,0), 1);
-      al_draw_rectangle(square3.x0, square3.y0, square3.x1, square3.y1, al_map_rgb(255,0,0), 1);
-      // al_draw_rectangle(square4.x0, square4.y0, square4.x1, square4.y1, al_map_rgb(255,0,0), 1);
-      // al_draw_rectangle(square5.x0, square5.y0, square5.x1, square5.y1, al_map_rgb(255,0,0), 1);
-
       for(int i = 0; i < 5; i++) {
         if( heroi.tiros[i].isExploding ) {
           shotExploding(&heroi.tiros[i]);
