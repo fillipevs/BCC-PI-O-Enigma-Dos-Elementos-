@@ -24,6 +24,26 @@ void movimentacao(Personagem* character) {
     character->frame -= character->frameMax;
 }
 
+void destroyShots(Tiro shots[]) {
+  for( int i = 0; i < 5; i++ ) {
+    if( shots[i].ativo ) {
+      al_destroy_bitmap(shots[i].image);
+      shots[i].ativo = false;
+    }
+  }
+}
+
+void shotExploding(Tiro* shot) {
+  shot->vel = 0;
+  shot->frame += 0.70;
+  if( shot->frame > shot->frameMax ) {
+    shot->frame -= shot->frameMax;
+    if( shot->ativo ) {
+      al_destroy_bitmap(shot->image);
+    }
+    shot->ativo = false;
+  }
+}
 
 void atacar(int mx, int my, Interface* interface) {
   if( heroi.tempoAtacar <= 0 ) {
@@ -32,59 +52,55 @@ void atacar(int mx, int my, Interface* interface) {
     if( heroi.estaAtacando.fireball ) {
       for(int i = 0; i < 5; i++) {
         if( !heroi.tiros[i].ativo ) {
-          heroi.tiros[i].altura = 16;
-          heroi.tiros[i].largura = 16;
+          heroi.tiros[i].altura = 80;
+          heroi.tiros[i].largura = 80;
           heroi.tiros[i].angulo = angulo;
           heroi.tiros[i].ativo = true;
-          heroi.tiros[i].posX = heroi.posX;
-          heroi.tiros[i].posY = heroi.posY;
+          heroi.tiros[i].posX = heroi.posX-20;
+          heroi.tiros[i].posY = heroi.posY-20;
           heroi.tiros[i].type.fireball = true;
           heroi.tiros[i].type.element = false;
-          heroi.tiros[i].image = al_load_bitmap("./assets/poderes/bolafogo.png");
+          heroi.tiros[i].frameMax = 19;
+          heroi.tiros[i].frame = 0.0f;
+          heroi.tiros[i].vel = 6;
+          heroi.tiros[i].isExploding = false;
+          heroi.tiros[i].image = al_load_bitmap("./assets/poderes/shot.png");
           heroi.tempoAtacar = 6;
           break;
         } 
       }
     } else if( heroi.estaAtacando.element && interface->attack2SlotType != EMPTY ) {
-      switch (interface->attack2SlotType) 
-      {
-      case ACIDO_CLORIDRICO:
-        for(int i = 0; i < 5; i++) {
-          if( !heroi.tiros[i].ativo ) {
-            heroi.tiros[i].altura = 16;
-            heroi.tiros[i].largura = 16;
-            heroi.tiros[i].angulo = angulo;
-            heroi.tiros[i].ativo = true;
-            heroi.tiros[i].posX = heroi.posX;
-            heroi.tiros[i].posY = heroi.posY;
-            heroi.tiros[i].type.element = true;
-            heroi.tiros[i].type.fireball = false;
-            heroi.tiros[i].image = al_load_bitmap("./assets/e3-t.bmp");
-            heroi.tempoAtacar = 6;
-            break;
-          } 
+      for( int i = 0; i < 5; i++ ) {
+        if( !heroi.tiros[i].ativo ) {
+          heroi.tiros[i].altura = 32;
+          heroi.tiros[i].largura = 32;
+          heroi.tiros[i].angulo = angulo;
+          heroi.tiros[i].ativo = true;
+          heroi.tiros[i].posX = heroi.posX;
+          heroi.tiros[i].posY = heroi.posY;
+          heroi.tiros[i].type.element = true;  
+          heroi.tiros[i].type.fireball = false;  
+          heroi.tiros[i].frameMax = 0;
+          heroi.tiros[i].frame = 0.0f;
+          heroi.tiros[i].vel = 6;
+          heroi.tiros[i].isExploding = false;
+          heroi.tempoAtacar = 6;
+
+          switch (interface->attack2SlotType) {
+            case ACIDO_CLORIDRICO:
+              heroi.tiros[i].image = al_load_bitmap("./assets/e3-t.bmp");
+              break;
+            case HIDROXIDO_AMONIO:
+              heroi.tiros[i].image = al_load_bitmap("./assets/e1-t.bmp");
+              break;
+            case VERIFICATION:
+              heroi.tiros[i].image = al_load_bitmap("./assets/e2-t.bmp");
+              break;
+            default:
+              break;
+          }
+          break;
         }
-        break;
-      case HIDROXIDO_AMONIO:
-        for(int i = 0; i < 5; i++) {
-          if( !heroi.tiros[i].ativo ) {
-            heroi.tiros[i].altura = 16;
-            heroi.tiros[i].largura = 16;
-            heroi.tiros[i].angulo = angulo;
-            heroi.tiros[i].ativo = true;
-            heroi.tiros[i].posX = heroi.posX;
-            heroi.tiros[i].posY = heroi.posY;
-            heroi.tiros[i].type.element = true;  
-            heroi.tiros[i].type.fireball = false;  
-            heroi.tiros[i].image = al_load_bitmap("./assets/e2-t.bmp");
-            heroi.tempoAtacar = 6;
-            break;
-          } 
-        }
-        break;
-      
-      default:
-        break;
       }
     }
   } 
@@ -104,7 +120,15 @@ void takeElement(Interface* interface, Crystal* crystal) {
     break;
   case HIDROXIDO_AMONIO:
     interface->attack2SlotType = HIDROXIDO_AMONIO;
+    interface->attack2Img = al_load_bitmap("./assets/e1.png");
+    break;
+  case VERIFICATION:
+    interface->attack2SlotType = VERIFICATION;
     interface->attack2Img = al_load_bitmap("./assets/e2.png");
+    break;
+  case EMPTY: 
+    interface->attack2SlotType = EMPTY;
+    interface->attack2Img = al_load_bitmap("./assets/slotEmpty.png");
     break;
   default:
     break;

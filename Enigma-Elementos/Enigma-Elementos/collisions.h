@@ -91,31 +91,20 @@ bool mapCollision(Personagem* char1, MapSquare* square) {
 
 bool enemyHit(Tiro* shot, Personagem* char1) {
   if( shot->type.element ) return false;
+  // colision by distance
+  float shotEnemyDistance = sqrt( pow((shot->posX+shot->largura/2) - (char1->posX+char1->largura/2), 2) +  pow( (shot->posY+shot->altura/2) - (char1->posY+char1->altura/2), 2));
 
-  if( 
-    (   
-      (shot->posX >= char1->posX && shot->posX <= char1->posX+char1->largura) || 
-      (shot->posX+shot->largura >= char1->posX && shot->posX+shot->largura <= char1->posX+char1->largura) 
-    )
-    && 
-    ( 
-      (shot->posY >= char1->posY && shot->posY <= char1->posY+char1->altura) ||
-      (shot->posY+shot->altura >= char1->posY && shot->posY+shot->altura <= char1->posY+char1->altura) 
-    )
-  ) {
-    if( shot->ativo ) {
-      al_destroy_bitmap(shot->image);
-    }
-    shot->ativo = false;
+  if( shotEnemyDistance <= 30  && !shot->isExploding ) {
+    shot->isExploding = true;
     char1->exploding = true;
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 bool barreiraHit(Tiro* shot, MapSquare* square) {
-  if( shot->type.fireball ) return false;
+  if( shot->type.fireball || !shot->ativo ) return false;
 
   if( 
     (   
@@ -135,4 +124,16 @@ bool barreiraHit(Tiro* shot, MapSquare* square) {
     return true;
   }
   return false;
+}
+
+bool shotCollision(Tiro* shot, MapSquare* square) {
+  if( 
+    ( shot->posX+shot->largura/2 >= square->x0 && shot->posX+shot->largura/2 <= square->x1) &&
+    ( shot->posY+shot->altura/2 >= square->y0 && shot->posY+shot->altura/2 <= square->y1 )
+  ) {
+    return true;
+  } else {
+    shot->isExploding = true;
+    return false;
+  }
 }

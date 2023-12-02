@@ -5,6 +5,8 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
   bool done = false;
   bool heroNearBarreira = false;
   bool talkWithBarreira = false;
+  bool talkWithKing = false;
+  float heroKingDistance = 0.0f;
 
   switch (gameStatus->coming)
   {
@@ -31,7 +33,7 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
   }
 
   MapSquare square1 = {120, 975, 70, 170};
-  MapSquare square2 = {440, 520, 145, 360};
+  MapSquare square2 = {440, 520, 70, 380};
   MapSquare square3 = {20, 1000, 325, 718};
 
   MapSquare chumbo = {31, 131, 50, 150};
@@ -71,11 +73,6 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
             mapCollision(&heroi, &square1);
           }
 
-          for( int i = 0; i < 10; i++ ) {
-            if( bobOmb[i].alive ) {
-              enemyMove(&bobOmb[i]); // movimentacao dos bob-ombs
-            }
-          }
           if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
             movimentacao(&heroi); // movimentação do herói
           } else {
@@ -118,7 +115,9 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
               done = true;
             } else if( heroNearBarreira ) {
               talkWithBarreira = true;
-            }
+            } else if( heroKingDistance < 55 ) {
+              talkWithKing = true;
+            } 
           }
           break;
 
@@ -166,9 +165,11 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
       al_clear_to_color(al_map_rgb(0 ,0 ,0 ));
       al_draw_bitmap(lobby, 0, 0, 0);
 
+      if( barreira->verificar ) {
+        al_draw_ellipse(80, 113, 50, 40, al_map_rgb(255,255,51), 15);
+      }
       if( barreira->chumbo ) {
         al_draw_ellipse(80, 113, 55, 45, al_map_rgb(192,192,192), 5);
-        heroNearBarreira = (heroi.posX <= chumbo.x1 && heroi.posY >= chumbo.y0 && heroi.posY <= chumbo.y1 );
       } 
       if( barreira->mercurio ) {
         al_draw_ellipse(80, 113, 45, 35, al_map_rgb(70,130,180), 5);
@@ -177,48 +178,49 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
         al_draw_ellipse(80, 113, 50, 40, al_map_rgb(79,79,79), 5);
       }
 
-      if( !barreira->chumbo && !barreira->mercurio && !barreira->prata && barreira->verificar ) {
-        al_draw_ellipse(80, 113, 50, 40, al_map_rgb(255,255,51), 15);
+      if( barreira->chumbo ) {
+        heroNearBarreira = (heroi.posX <= chumbo.x1 && heroi.posY >= chumbo.y0 && heroi.posY <= chumbo.y1 );
+      } else if( barreira->mercurio || barreira->prata ) {
+        heroNearBarreira = (heroi.posX <= prataMercurio.x1 && heroi.posY >= prataMercurio.y0 && heroi.posY <= prataMercurio.y1 );
+      } else if( barreira->verificar ) {
+        heroNearBarreira = (heroi.posX <= verificar.x1 && heroi.posY >= verificar.y0 && heroi.posY <= verificar.y1 );
       }
 
       al_draw_bitmap_region(heroi.sprite, heroi.largura * (int)heroi.frame, heroi.frameAtualY, heroi.largura, heroi.altura, heroi.posX, heroi.posY, 0); 
       al_draw_bitmap_region(king.sprite, king.largura * (int)king.frame, king.frameAtualY, king.largura, king.altura, king.posX, king.posY, 0); 
       al_draw_bitmap_region(princess.sprite, princess.largura * (int)princess.frame, princess.frameAtualY, princess.largura, princess.altura, princess.posX, princess.posY, 0); 
 
+      heroKingDistance = sqrt( pow((heroi.posX+heroi.largura/2) - (king.posX+king.largura/2), 2) + pow((heroi.posY+heroi.altura/2) - (king.posY+king.altura/2), 2) );
+
       if( 
         (heroi.posX <= 22 && heroi.posY+heroi.altura >= 490 && heroi.posY+heroi.altura <= 548) ||
         (heroi.posX >= 950 && heroi.posY+heroi.altura >= 583 && heroi.posY+heroi.altura <= 641 && !barreira->chumbo && !barreira->mercurio && !barreira->prata ) ||
         (heroi.posX >= 395 && heroi.posX <= 490 && heroi.posY+heroi.altura >= 716 && !barreira->chumbo ) || 
-        (heroNearBarreira)
+        (heroNearBarreira) || 
+        (heroKingDistance < 55)
        ) {
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY-20, 0);
       }
 
-      for( int i = 0; i < 10; i++ ) {
-        if( bobOmb[i].exploding ) 
-          enemyExplosion(&bobOmb[i]);
-        if( bobOmb[i].alive ) {
-          al_draw_bitmap_region(bobOmb[i].sprite, bobOmb[i].largura * (int)bobOmb[i].frame, bobOmb[i].frameAtualY, bobOmb[i].largura, bobOmb[i].altura, bobOmb[i].posX, bobOmb[i].posY, 0); 
-          if(characterCollision(&bobOmb[i], &heroi)) {
-            bobOmb[i].exploding = true;
-            heroi.lifes--;
-          }
-        }
-      }
-
       for(int i = 0; i < 5; i++) {
-        if( heroi.tiros[i].ativo && (heroi.tiros[i].posX > JANELA_LARGURA || heroi.tiros[i].posX < 0 || heroi.tiros[i].posY > JANELA_ALTURA || heroi.tiros[i].posY < 0) ) {
-          heroi.tiros[i].ativo = false;
-          al_destroy_bitmap(heroi.tiros[i].image);
+        if( heroi.tiros[i].isExploding ) {
+          shotExploding(&heroi.tiros[i]);
         }
 
         if( heroi.tiros[i].ativo ) {
-          heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
-          heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
-          al_draw_bitmap(heroi.tiros[i].image, heroi.tiros[i].posX, heroi.tiros[i].posY, 0);
-          for( int j = 0; j < 10; j++ ) {
-            if( bobOmb[j].alive && !bobOmb[j].exploding )
-              enemyHit(&heroi.tiros[i], &bobOmb[j]);
+          al_draw_bitmap_region(heroi.tiros[i].image, heroi.tiros[i].largura * (int)heroi.tiros[i].frame, 0, heroi.tiros[i].largura, heroi.tiros[i].altura, heroi.tiros[i].posX, heroi.tiros[i].posY, 0); 
+
+          if( !heroi.tiros[i].isExploding ) {
+            heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
+            heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
+          }
+          
+          if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 440 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 520 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 325 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 170) {
+            shotCollision(&heroi.tiros[i], &square2);
+          } else if( heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 190 ) {
+            shotCollision(&heroi.tiros[i], &square3);
+          } else {
+            shotCollision(&heroi.tiros[i], &square1);
           }
         }
 
@@ -227,17 +229,31 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
         } else if( (barreira->mercurio || barreira->prata) && barreiraHit(&heroi.tiros[i], &prataMercurio) ) {
           barreira->mercurio = !(interface->attack2SlotType == HIDROXIDO_AMONIO);
           barreira->prata = barreira->mercurio;
-        } else if( !barreira->chumbo && !barreira->mercurio && !barreira->prata && barreira->verificar ) {
-          barreira->verificar = !barreiraHit(&heroi.tiros[i], &verificar);
+        } else if( !barreira->chumbo && !barreira->mercurio && !barreira->prata && barreira->verificar && barreiraHit(&heroi.tiros[i], &verificar)) {
+          barreira->verificar = !(interface->attack2SlotType == VERIFICATION);
         }
       }
       
       showInterface(interface);
 
-      if( talkWithBarreira && barreira->chumbo ) {
+      if( talkWithBarreira ) {
         talkWithBarreira = false;
-        dialogBox(allegro, "Essa barreira... é de chumbo. Impenetrável e resistente. Precisarei encontrar ácido clorídrico para desfazê-la.", &heroi);
-        dialogBox(allegro, "Se não me engano esse elemento fica no reino da planta, ao lado esquerdo da minha casa. Só preciso tomar cuidado com os inimigos que andam por lá!", &heroi);
+        if( barreira->chumbo ) {
+          dialogBox(allegro, "Essa barreira... é de Chumbo. Impenetrável e resistente. Precisarei encontrar ácido clorídrico para desfazê-la.", &heroi);
+          dialogBox(allegro, "Se não me engano esse elemento fica no reino da planta, do lado esquerdo. Só preciso tomar cuidado com os inimigos que andam por lá!", &heroi);
+        } else if( barreira->prata || barreira->mercurio ) {
+          dialogBox(allegro, "Essa duas barreiras... é de Prata e Mercúrio... A solução química para desfazer ambas as barreiras é hidróxido de amônio.", &heroi);
+          dialogBox(allegro, "Certeza que consigo um pouco no reino da água. Só descer o caminho de pedra e eu chego lá.", &heroi);
+        } else if( barreira->verificar ) {
+          dialogBox(allegro, "As barreiras cairam!! Mas como usamos elementos químicos, essa área pode estar contaminada, precisamos verificar!", &heroi);
+          dialogBox(allegro, "Para fazer a verificação preciso pegar Ácido nítrico, Cromato de potássio e Amônia no reino de fogo, do lado direito.", &heroi);
+          dialogBox(allegro, "Se essa cor amarelada sumir, significa que a princesa pode sair com segurança.", &heroi);
+        }
+      }
+
+      if( talkWithKing ) {
+        talkWithKing = false;
+        dialogBox(allegro, "Por favor, tira minha filha daquela barreira.", &king);
       }
 
       al_flip_display();
@@ -250,10 +266,5 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
   al_destroy_bitmap(heroi.face);  
   al_destroy_bitmap(king.face);  
   al_destroy_bitmap(princess.sprite);  
-  for(int i = 0; i < 5; i++) {
-    if( !heroi.tiros[i].ativo )
-      break;
-    al_destroy_bitmap(heroi.tiros[i].image);
-    heroi.tiros[i].ativo = false;
-  }
+  destroyShots(heroi.tiros);
 } 

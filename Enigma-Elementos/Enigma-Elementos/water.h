@@ -5,6 +5,11 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
   bool done = false;
   bool talkAboutElement = false;
   float heroCrystalDistance = 0.0f;
+  float heroBobOmbDistance = 0.0f;
+
+  int enemyAmount = 14;
+  Personagem bobOmb[14];
+  createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
   MapSquare square1 = {430, 658, 45, 80};
   MapSquare square2 = {72, 790, 66, 136};
@@ -51,7 +56,7 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
             mapCollision(&heroi, &square5);
           }
 
-          for( int i = 0; i < 10; i++ ) {
+          for( int i = 0; i < enemyAmount; i++ ) {
             if( bobOmb[i].alive ) {
               enemyMove(&bobOmb[i]); // movimentacao dos bob-ombs
             }
@@ -118,6 +123,7 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
 
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
           if( event.mouse.button == 1 ) {
+            printf("x:%d y:%d\n", allegro->mouse.x, allegro->mouse.y);
             heroi.estaAtacando.fireball = true;
           } else if( event.mouse.button == 2 ) {
             heroi.estaAtacando.element = true;
@@ -152,29 +158,51 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY-20, 0);
       }
 
-      for( int i = 0; i < 10; i++ ) {
+      for( int i = 0; i < enemyAmount; i++ ) {
         if( bobOmb[i].exploding ) 
           enemyExplosion(&bobOmb[i]);
         if( bobOmb[i].alive ) {
           al_draw_bitmap_region(bobOmb[i].sprite, bobOmb[i].largura * (int)bobOmb[i].frame, bobOmb[i].frameAtualY, bobOmb[i].largura, bobOmb[i].altura, bobOmb[i].posX, bobOmb[i].posY, 0); 
-          if(characterCollision(&bobOmb[i], &heroi)) {
+          heroBobOmbDistance = sqrt( pow( (heroi.posX+heroi.largura/2) - (bobOmb[i].posX+bobOmb[i].largura/2), 2) + pow( (heroi.posY+heroi.altura/2) - (bobOmb[i].posY+bobOmb[i].altura/2), 2) );
+          if(heroBobOmbDistance < 30 && !bobOmb[i].exploding) {
             bobOmb[i].exploding = true;
             heroi.lifes--;
           }
         }
       }
 
+      al_draw_rectangle(square1.x0, square1.y0, square1.x1, square1.y1, al_map_rgb(255,0,0), 1);
+      al_draw_rectangle(square2.x0, square2.y0, square2.x1, square2.y1, al_map_rgb(255,0,0), 1);
+      al_draw_rectangle(square3.x0, square3.y0, square3.x1, square3.y1, al_map_rgb(255,0,0), 1);
+      // al_draw_rectangle(square4.x0, square4.y0, square4.x1, square4.y1, al_map_rgb(255,0,0), 1);
+      // al_draw_rectangle(square5.x0, square5.y0, square5.x1, square5.y1, al_map_rgb(255,0,0), 1);
+
       for(int i = 0; i < 5; i++) {
-        if( heroi.tiros[i].ativo && (heroi.tiros[i].posX > JANELA_LARGURA || heroi.tiros[i].posX < 0 || heroi.tiros[i].posY > JANELA_ALTURA || heroi.tiros[i].posY < 0) ) {
-          heroi.tiros[i].ativo = false;
-          al_destroy_bitmap(heroi.tiros[i].image);
+        if( heroi.tiros[i].isExploding ) {
+          shotExploding(&heroi.tiros[i]);
         }
 
         if( heroi.tiros[i].ativo ) {
-          heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
-          heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
-          al_draw_bitmap(heroi.tiros[i].image, heroi.tiros[i].posX, heroi.tiros[i].posY, 0);
-          for( int j = 0; j < 10; j++ ) {
+          al_draw_bitmap_region(heroi.tiros[i].image, heroi.tiros[i].largura * (int)heroi.tiros[i].frame, 0, heroi.tiros[i].largura, heroi.tiros[i].altura, heroi.tiros[i].posX, heroi.tiros[i].posY, 0);
+
+          if( !heroi.tiros[i].isExploding ) {
+            heroi.tiros[i].posX += 6 * cos(heroi.tiros[i].angulo);
+            heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
+          }
+          
+          if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 430 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 658 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 45 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 70) {
+            shotCollision(&heroi.tiros[i], &square1);
+          } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 72 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 740 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 66 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 136 ) {
+            shotCollision(&heroi.tiros[i], &square2);
+          } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 108 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 950 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 100 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 397 ) {
+            shotCollision(&heroi.tiros[i], &square3);
+          } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 900 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 1010 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 100 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 136 ) {
+            shotCollision(&heroi.tiros[i], &square4);
+          } else {
+            shotCollision(&heroi.tiros[i], &square5);
+          }
+
+          for( int j = 0; j < enemyAmount; j++ ) {
             if( bobOmb[j].alive && !bobOmb[j].exploding )
               enemyHit(&heroi.tiros[i], &bobOmb[j]);
           }
@@ -195,10 +223,6 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
   al_destroy_bitmap(agua);  
   al_destroy_bitmap(heroi.sprite);  
   al_destroy_bitmap(heroi.face);  
-  for(int i = 0; i < 5; i++) {
-    if( !heroi.tiros[i].ativo )
-      break;
-    al_destroy_bitmap(heroi.tiros[i].image);
-    heroi.tiros[i].ativo = false;
-  }
+  destroyEnemies(bobOmb, enemyAmount);
+  destroyShots(heroi.tiros);  
 } 
