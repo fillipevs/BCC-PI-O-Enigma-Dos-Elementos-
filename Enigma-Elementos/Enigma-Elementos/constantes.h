@@ -10,6 +10,7 @@ typedef enum {
   WATER,
   FIRE,
   GRASS,
+  END,
   EXIT,
 } GAME_STATUS_TYPE;
 

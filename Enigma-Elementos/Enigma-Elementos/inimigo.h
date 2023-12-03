@@ -24,11 +24,6 @@ void enemyMove(Personagem* enemy){
     if( enemy->frame > enemy->frameMax ) 
       enemy->frame -= enemy->frameMax;
 
-    if( enemy->tempoAtacar > 0 ) {
-      enemy->tempoAtacar -= 0.1;
-      return;
-    }
-
   // seguir o heroi
     double angulo = atan2((double)heroi.posY - enemy->posY, (double)heroi.posX - enemy->posX);
     double cosPositive = cos(angulo) > 0 ? cos(angulo) : -cos(angulo);
@@ -55,8 +50,6 @@ void enemyMove(Personagem* enemy){
         enemy->indoBaixo = false;
       }
     } 
-
-    enemy->tempoAtacar = 2;
   }
 }
 

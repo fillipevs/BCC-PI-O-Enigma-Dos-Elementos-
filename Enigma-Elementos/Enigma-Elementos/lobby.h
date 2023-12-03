@@ -256,6 +256,12 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
         dialogBox(allegro, "Por favor, tira minha filha daquela barreira.", &king);
       }
 
+      if( !barreira->chumbo && !barreira->mercurio && !barreira->prata && !barreira->verificar ) {
+        done = true;
+        gameStatus->coming = LOBBY;
+        gameStatus->going = END;
+      }
+
       al_flip_display();
     }
   } while(!done);
