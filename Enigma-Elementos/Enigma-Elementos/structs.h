@@ -143,7 +143,7 @@ Personagem earl = {
 
 Personagem king = {
   970, // posição x
-  80, // posição y
+  70, // posição y
   48.3, // largura
   48, // altura
   1.3, // velocidade

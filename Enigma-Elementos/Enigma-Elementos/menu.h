@@ -1,6 +1,6 @@
 #include "funcoes.h"
 
-void menu(Allegro* allegro, GameStatus* gameStatus) {
+void menu(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira) {
   bool draw = false;
   bool done = false;
 
@@ -41,6 +41,13 @@ void menu(Allegro* allegro, GameStatus* gameStatus) {
           done = true;
           gameStatus->going = PROLOGUE;
           gameStatus->coming = MENU;
+          barreira->chumbo = true;
+          barreira->mercurio = true;
+          barreira->prata = true;
+          barreira->verificar = true;
+          interface->attack2SlotType = EMPTY;
+          al_destroy_bitmap(interface->attack2Img);
+          interface->attack2Img = al_load_bitmap("./assets/slotEmpty.png");
         } 
 
         if( btnExit.frameX != 0 ) {
@@ -67,6 +74,9 @@ void menu(Allegro* allegro, GameStatus* gameStatus) {
 
       al_draw_bitmap_region(btnExit.image, btnExit.width * btnExit.frameX, 0, btnExit.width, btnExit.height, btnExit.x, btnExit.y, 0); 
       al_draw_text(allegro->font[0], al_map_rgb(0,0,0), btnExit.textX, btnExit.textY, 0, btnExit.text);
+
+      if( gameStatus->coming == END ) 
+        al_draw_text(allegro->font[1], al_map_rgb(255,0,0), 380, 685, 0, "obrigado por jogar! ^^");
 
       al_flip_display();
     }

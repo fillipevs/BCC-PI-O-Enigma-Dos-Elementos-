@@ -21,6 +21,7 @@
 #include "water.h"
 #include "fire.h"
 #include "grass.h"
+#include "end.h"
 #include "collisions.h"
 #include "interface.h"
 
