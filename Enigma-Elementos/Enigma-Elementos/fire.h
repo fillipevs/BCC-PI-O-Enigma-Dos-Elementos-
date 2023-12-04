@@ -3,6 +3,7 @@
 void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira) {
   bool draw = false;
   bool done = false;
+  bool pause = false;
   bool talkAboutElement = false;
   float heroCrystalDistance = 0.0f;
   float heroBobOmbDistance = 0.0f;
@@ -114,6 +115,9 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barrei
           if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
             heroi.vel = 1.3;
           }
+          if( event.keyboard.keycode == ALLEGRO_KEY_ESCAPE ) {
+            pause = true;
+          }
           break;
 
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
@@ -204,6 +208,13 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barrei
         dialogBox(allegro, "Ácido nítrico, Cromato de potássio e Amônia. Os últimos que faltavam!!", &heroi);
         if( barreira->verificar )
           createEnemies(bobOmb, enemyAmount, TAKE_ELEMENT, gameStatus);
+      }
+
+      if( pause ) {
+        pause = false;
+        pauseGame(allegro, gameStatus);
+        if( gameStatus->going == MENU )
+          done = true;
       }
 
       al_flip_display();

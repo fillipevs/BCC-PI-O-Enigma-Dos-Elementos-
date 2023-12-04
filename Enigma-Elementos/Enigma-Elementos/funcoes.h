@@ -17,6 +17,7 @@ bool shotCollision(Tiro* shot, MapSquare* square);
 
 void showInterface(Interface* interface);
 void dialogBox(Allegro* allegro, char string[], Personagem* character);
+void pauseGame(Allegro* allegro, GameStatus* gameStatus);
 void menu(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira);
 void prologue(Allegro* allegro, GameStatus* gameStatus);
 void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira);

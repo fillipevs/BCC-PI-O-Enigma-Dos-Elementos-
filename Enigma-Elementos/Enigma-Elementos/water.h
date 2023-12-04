@@ -3,6 +3,7 @@
 void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira) {
   bool draw = false;
   bool done = false;
+  bool pause = false;
   bool talkAboutElement = false;
   float heroCrystalDistance = 0.0f;
   float heroBobOmbDistance = 0.0f;
@@ -120,6 +121,9 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
           if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
             heroi.vel = 1.3;
           }
+          if( event.keyboard.keycode == ALLEGRO_KEY_ESCAPE ) {
+            pause = true;
+          }
           break;
 
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
@@ -213,6 +217,13 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
         talkAboutElement = false;
         if( barreira->mercurio )
           dialogBox(allegro, "Hidróxido de amônio, Ufaa!!", &heroi);
+      }
+
+      if( pause ) {
+        pause = false;
+        pauseGame(allegro, gameStatus);
+        if( gameStatus->going == MENU )
+          done = true;
       }
 
       al_flip_display();
