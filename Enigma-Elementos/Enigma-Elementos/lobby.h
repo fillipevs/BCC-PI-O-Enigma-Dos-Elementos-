@@ -3,6 +3,7 @@
 void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira) {
   bool draw = false;
   bool done = false;
+  bool pause = false;
   bool heroNearBarreira = false;
   bool talkWithBarreira = false;
   bool talkWithKing = false;
@@ -136,6 +137,9 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
           } 
           if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
             heroi.vel = 1.3;
+          } 
+          if( event.keyboard.keycode == ALLEGRO_KEY_ESCAPE ) {
+            pause = true;
           }
           break;
 
@@ -264,6 +268,13 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
         done = true;
         gameStatus->coming = LOBBY;
         gameStatus->going = END;
+      }
+
+      if( pause ) {
+        pause = false;
+        pauseGame(allegro, gameStatus);
+        if( gameStatus->going == MENU )
+          done = true;
       }
 
       al_flip_display();
