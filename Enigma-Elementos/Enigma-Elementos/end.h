@@ -7,6 +7,11 @@ void end(Allegro* allegro, GameStatus* gameStatus) {
   bool done = false;
   bool alreadyTalked = false;
 
+  heroi.indoBaixo = false;
+  heroi.indoCima = false;
+  heroi.indoDireita = false;
+  heroi.indoEsquerda = false;
+
   float kingHeroDistance = 0.0f;
   float princessHeroDistance = 0.0f;
 
@@ -152,6 +157,11 @@ void meetHero(Personagem* character){
   if( character->frame > character->frameMax ) 
     character->frame -= character->frameMax;
 
+  if( character->tempoAtacar > 0 ) {
+    character->tempoAtacar -= 0.1;
+    return;
+  }
+
   // seguir o heroi
   double angulo = atan2((double)heroi.posY - character->posY, (double)heroi.posX - character->posX);
   double cosPositive = cos(angulo) > 0 ? cos(angulo) : -cos(angulo);
@@ -178,4 +188,5 @@ void meetHero(Personagem* character){
       character->indoBaixo = false;
     }
   } 
+  character->tempoAtacar = 2;
 }

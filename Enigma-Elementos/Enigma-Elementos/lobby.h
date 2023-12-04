@@ -73,12 +73,12 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
             mapCollision(&heroi, &square1);
           }
 
-          if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
+          if( heroi.alive && (heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda) ) {
             movimentacao(&heroi); // movimentação do herói
-          } else {
+          } else if(heroi.alive) {
             heroi.frame = 1;
           }
-          if( heroi.estaAtacando.fireball || heroi.estaAtacando.element ) {
+          if( heroi.alive && (heroi.estaAtacando.fireball || heroi.estaAtacando.element) ) {
             atacar(allegro->mouse.x, allegro->mouse.y, interface);
           }
           if( heroi.tempoAtacar > -1 )
@@ -99,7 +99,7 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
             heroi.indoCima = true;
           }
           else if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
-            heroi.vel += 0.7;
+            heroi.vel = 2.0;
           } else if( event.keyboard.keycode == ALLEGRO_KEY_E ) { // Interagindo
             if( heroi.posX <= 22 && heroi.posY+heroi.altura >= 490 && heroi.posY+heroi.altura <= 548 ) {
               gameStatus->going = GRASS;
@@ -135,7 +135,7 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
             heroi.indoCima = false;
           } 
           if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
-            heroi.vel -= 0.7;
+            heroi.vel = 1.3;
           }
           break;
 
@@ -200,6 +200,10 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
         (heroKingDistance < 55)
        ) {
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY-20, 0);
+      }
+
+      if( heroi.lifes == 0 ) {
+        morrendo(&heroi, &done, gameStatus); 
       }
 
       for(int i = 0; i < 5; i++) {
