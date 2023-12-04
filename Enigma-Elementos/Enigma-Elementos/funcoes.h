@@ -1,5 +1,6 @@
 Allegro init();
 void movimentacao(Personagem* character);
+void morrendo(Personagem* character, bool* done, GameStatus* gameStatus);
 void atacar(int mx, int my, Interface* interface);
 void takeElement(Interface* interface, Crystal* crystal);
 void enemyMove(Personagem* enemy);
@@ -19,9 +20,10 @@ void dialogBox(Allegro* allegro, char string[], Personagem* character);
 void menu(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira);
 void prologue(Allegro* allegro, GameStatus* gameStatus);
 void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira);
-void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface);
-void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface);
-void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface);
+void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira);
+void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira);
+void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira);
+void gameover(Allegro* allegro, GameStatus* gameStatus, Interface* interface);
 void end(Allegro* allegro, GameStatus* gameStatus);
 
 void destroy(Allegro* allegro);

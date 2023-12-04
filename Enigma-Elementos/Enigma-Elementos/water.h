@@ -1,15 +1,16 @@
 #include "funcoes.h"
 
-void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
+void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira) {
   bool draw = false;
   bool done = false;
   bool talkAboutElement = false;
   float heroCrystalDistance = 0.0f;
   float heroBobOmbDistance = 0.0f;
 
-  int enemyAmount = 14;
+  int enemyAmount = barreira->mercurio ? 14 : 0;
   Personagem bobOmb[14];
-  createEnemies(bobOmb, enemyAmount, START, gameStatus);
+  if( barreira->mercurio )
+    createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
   MapSquare square1 = {430, 658, 45, 80};
   MapSquare square2 = {72, 790, 66, 136};
@@ -44,7 +45,7 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
           draw = true;
           al_get_mouse_state(&allegro->mouse);
         // colisão do herói com o mapa
-          if( heroi.posX >= 430 && heroi.posX <= 658 && heroi.posY+heroi.altura >= 45 && heroi.posY+heroi.altura <= 70) {
+          if( heroi.posX >= 430 && heroi.posX <= 658 && heroi.posY+heroi.altura >= 40 && heroi.posY+heroi.altura <= 70) {
             mapCollision(&heroi, &square1);
           } else if( heroi.posX >= 72 && heroi.posX <= 740 && heroi.posY+heroi.altura >= 66 && heroi.posY+heroi.altura <= 136 ) {
             mapCollision(&heroi, &square2);
@@ -57,18 +58,18 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
           }
 
           for( int i = 0; i < enemyAmount; i++ ) {
-            if( bobOmb[i].alive ) {
+            if( heroi.alive && bobOmb[i].alive ) {
               enemyMove(&bobOmb[i]); // movimentacao dos bob-ombs
             }
           }
 
-          if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
+          if( heroi.alive && (heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda) ) {
             movimentacao(&heroi); // movimentação do herói
-          } else {
+          } else if(heroi.alive) {
             heroi.frame = 1;
           }
 
-          if( heroi.estaAtacando.fireball || heroi.estaAtacando.element ) {
+          if( heroi.alive && (heroi.estaAtacando.fireball || heroi.estaAtacando.element) ) {
             atacar(allegro->mouse.x, allegro->mouse.y, interface);
           }
           if( heroi.tempoAtacar > -1 )
@@ -89,13 +90,13 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
             heroi.indoCima = true;
           }
           else if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
-            heroi.vel += 0.7;
+            heroi.vel = 2.0;
           } else if( event.keyboard.keycode == ALLEGRO_KEY_E ) {
-            if( heroCrystalDistance < 50 ) {
+            if( heroi.alive && heroCrystalDistance < 50 ) {
               takeElement(interface, &crystal);
               talkAboutElement = true;
             }
-            if( heroi.posX >= 430 && heroi.posX <= 658 && heroi.posY+heroi.altura >= 45 && heroi.posY+heroi.altura <= 70) {
+            if( heroi.alive && heroi.posX >= 430 && heroi.posX <= 658 && heroi.posY+heroi.altura >= 45 && heroi.posY+heroi.altura <= 70) {
               gameStatus->going = LOBBY;
               gameStatus->coming = WATER;
               done = true;
@@ -117,13 +118,12 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
             heroi.indoCima = false;
           } 
           if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
-            heroi.vel -= 0.7;
+            heroi.vel = 1.3;
           }
           break;
 
         case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
           if( event.mouse.button == 1 ) {
-            printf("x:%d y:%d\n", allegro->mouse.x, allegro->mouse.y);
             heroi.estaAtacando.fireball = true;
           } else if( event.mouse.button == 2 ) {
             heroi.estaAtacando.element = true;
@@ -156,6 +156,10 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY+heroi.altura+10, 0);
       } else if( heroCrystalDistance < 50 ) {
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY-20, 0);
+      }
+
+      if( heroi.lifes == 0 ) {
+        morrendo(&heroi, &done, gameStatus); 
       }
 
       for( int i = 0; i < enemyAmount; i++ ) {
@@ -207,7 +211,8 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
 
       if( talkAboutElement ) {
         talkAboutElement = false;
-        dialogBox(allegro, "Hidróxido de amônio, Ufaa!!", &heroi);
+        if( barreira->mercurio )
+          dialogBox(allegro, "Hidróxido de amônio, Ufaa!!", &heroi);
       }
 
       al_flip_display();

@@ -8,6 +8,7 @@ void prologue(Allegro* allegro, GameStatus* gameStatus) {
   bool done = false;
   bool alreadyTalked = true;
 
+  heroi.lifes = 5;
   heroi.posX = 635;
   heroi.posY = 170;
   heroi.frameAtualY = heroi.altura * 3;
@@ -17,6 +18,8 @@ void prologue(Allegro* allegro, GameStatus* gameStatus) {
   princess.posX = 55;
   princess.posY = 70;
   princess.frameAtualY = king.altura * 2;
+  earl.posX = 530;
+  earl.posY = 800;
 
   ALLEGRO_BITMAP* home = al_load_bitmap("./assets/mapa/home.bmp");
   ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa/lobby.bmp");
