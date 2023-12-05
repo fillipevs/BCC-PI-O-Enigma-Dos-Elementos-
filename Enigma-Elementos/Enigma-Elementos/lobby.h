@@ -47,7 +47,6 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
   princess.sprite = al_load_bitmap("./assets/npc/princess.png");
   heroi.face = al_load_bitmap("./assets/heroi/face.png");
   king.face = al_load_bitmap("./assets/npc/king-face.png");
-  chefe.face = al_load_bitmap("./assets/npc/king-face.png");
 
   do {
     while(!al_is_event_queue_empty(allegro->eventQueue)) {
@@ -266,8 +265,8 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
           dialogBox(allegro, "2 cromato de potássio (K₂CrO₄) para que o Chumbo (Pb) seja validado é ficar amarelo e solido.", &heroi);
           dialogBox(allegro, "3 amônia (NH3) para identificar o Mercúrio (Hg) que ficara preto e solido.", &heroi);
           dialogBox(allegro, "Se essa cor amarelada sumir, significa que a princesa pode sair com segurança.", &heroi);
-          dialogBox(allegro, "Muito sabio você jovem mago!", &chefe); // fazer vilão
-          dialogBox(allegro, "Me encontre nas terras vulcanicas ao Leste, se você me derrotar tera os elementos para desfazer minha barreira", &chefe); // fazer vilão
+          dialogBox(allegro, "Muito sabio você jovem mago!", &heroi); // fazer vilão
+          dialogBox(allegro, "Me encontre nas terras vulcanicas ao Leste, se você me derrotar tera os elementos para desfazer minha barreira", &heroi); // fazer vilão
         }
       }
       if( talkWithKing ) {
