@@ -1,15 +1,18 @@
 #include "funcoes.h"
 
-void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
+void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barreira* barreira) {
   bool draw = false;
   bool done = false;
+  bool pause = false;
   bool talkAboutElement = false;
   float heroCrystalDistance = 0.0f;
   float heroBobOmbDistance = 0.0f;
 
-  int enemyAmount = 6;
-  Personagem bobOmb[6];
-  createEnemies(bobOmb, enemyAmount, START, gameStatus);
+
+  int enemyAmount = barreira->chumbo ? 14 : 0;
+  Personagem bobOmb[14];
+  if( barreira->chumbo )
+    createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
   MapSquare square1 = {900, 1030, 288, 453};
   MapSquare square2 = {210, 1010, 100, 720};
@@ -57,18 +60,18 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
           }
 
           for( int i = 0; i < enemyAmount; i++ ) {
-            if( bobOmb[i].alive ) {
+            if( heroi.alive && bobOmb[i].alive ) {
               enemyMove(&bobOmb[i]); // movimentacao dos bob-ombs
             }
           }
 
-          if( heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda ) {
+          if( heroi.alive && (heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda) ) {
             movimentacao(&heroi); // movimentação do herói
-          } else {
+          } else if(heroi.alive) {
             heroi.frame = 1;
           }
 
-          if( heroi.estaAtacando.fireball || heroi.estaAtacando.element ) {
+          if( heroi.alive && (heroi.estaAtacando.fireball || heroi.estaAtacando.element) ) {
             atacar(allegro->mouse.x, allegro->mouse.y, interface);
           }
           if( heroi.tempoAtacar > -1 )
@@ -89,13 +92,13 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
             heroi.indoCima = true;
           }
           else if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
-            heroi.vel += 0.7;
+            heroi.vel = 2.0;
           } else if( event.keyboard.keycode == ALLEGRO_KEY_E ) {
-            if( heroCrystalDistance < 50 ) {
+            if( heroi.alive && heroCrystalDistance < 50 ) {
               takeElement(interface, &crystal);
               talkAboutElement = true;
             }
-            if( heroi.posX >= 970 && heroi.posY+heroi.altura >= 288 && heroi.posY+heroi.altura <= 453) {
+            if( heroi.alive && heroi.posX >= 970 && heroi.posY+heroi.altura >= 288 && heroi.posY+heroi.altura <= 453) {
               gameStatus->going = LOBBY;
               gameStatus->coming = GRASS;
               done = true;
@@ -117,7 +120,10 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
             heroi.indoCima = false;
           } 
           if ( event.keyboard.keycode == ALLEGRO_KEY_LSHIFT ) {
-            heroi.vel -= 0.7;
+            heroi.vel = 1.3;
+          }
+          if( event.keyboard.keycode == ALLEGRO_KEY_ESCAPE ) {
+            pause = true;
           }
           break;
 
@@ -156,6 +162,10 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
         (heroCrystalDistance < 50)
        ) {
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY-20, 0);
+      }
+
+      if( heroi.lifes == 0 ) {
+        morrendo(&heroi, &done, gameStatus); 
       }
 
       for( int i = 0; i < enemyAmount; i++ ) {
@@ -207,11 +217,20 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
 
       if( talkAboutElement ) {
         talkAboutElement = false;
+
         dialogBox(allegro, "Ácido clorídrico (HCl)", &heroi);
         dialogBox(allegro, "O ácido clorídrico se forma naturalmente pela reação do cloreto de sódio com sulfatos ácidos nas águas dos oceanos ou na atmosfera.", &heroi);
         dialogBox(allegro, "Vou preparar uma poção com esse reagente para dissolver a barreira", &heroi);
         dialogBox(allegro, "Pronto!!, Acredito que jogando isso na barreira ela ira se quebrar", &heroi);
-        createEnemies(bobOmb, enemyAmount, TAKE_ELEMENT, gameStatus);
+        if( barreira->chumbo )
+          createEnemies(bobOmb, enemyAmount, TAKE_ELEMENT, gameStatus);
+      }
+
+      if( pause ) {
+        pause = false;
+        pauseGame(allegro, gameStatus);
+        if( gameStatus->going == MENU )
+          done = true;
       }
 
       al_flip_display();

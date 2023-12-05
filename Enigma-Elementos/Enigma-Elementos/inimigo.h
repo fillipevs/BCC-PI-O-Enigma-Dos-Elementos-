@@ -55,7 +55,6 @@ void enemyMove(Personagem* enemy){
         enemy->indoBaixo = false;
       }
     } 
-
     enemy->tempoAtacar = 2;
   }
 }

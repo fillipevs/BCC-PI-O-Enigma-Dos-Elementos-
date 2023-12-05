@@ -6,7 +6,22 @@ void earlAndHeroGoToKing(int counter, bool *alreadyTalked);
 void prologue(Allegro* allegro, GameStatus* gameStatus) {
   bool draw = false;
   bool done = false;
+  bool pause = false;
   bool alreadyTalked = true;
+
+  heroi.lifes = 5;
+  heroi.vel = 1.3;
+  heroi.posX = 635;
+  heroi.posY = 170;
+  heroi.frameAtualY = heroi.altura * 3;
+  king.posX = 970;
+  king.posY = 70;
+  king.frameAtualY = king.altura * 1;
+  princess.posX = 55;
+  princess.posY = 70;
+  princess.frameAtualY = king.altura * 2;
+  earl.posX = 530;
+  earl.posY = 800;
 
   ALLEGRO_BITMAP* home = al_load_bitmap("./assets/mapa/home.bmp");
   ALLEGRO_BITMAP* lobby = al_load_bitmap("./assets/mapa/lobby.bmp");
@@ -44,6 +59,11 @@ void prologue(Allegro* allegro, GameStatus* gameStatus) {
             movimentacao(&earl); // movimentação do player por enquanto
           } else {
             earl.frame = 1;
+          }
+          break;
+        case ALLEGRO_EVENT_KEY_UP:
+          if( event.keyboard.keycode == ALLEGRO_KEY_ESCAPE ) {
+            pause = true;
           }
           break;
         
@@ -98,6 +118,13 @@ void prologue(Allegro* allegro, GameStatus* gameStatus) {
       else if( !alreadyTalked && counter > 2161 && counter <= 2162 ) {
         dialogBox(allegro, "Sua Majestade, antes de tudo, preciso examinar essa armadilha para determinar como poderemos quebrá-la.", &heroi);
         dialogBox(allegro, "Por favor, faça o que for necessário, Alex. Minha filha precisa ser liberta dessa prisão.", &king);
+      }
+
+      if( pause ) {
+        pause = false;
+        pauseGame(allegro, gameStatus);
+        if( gameStatus->going == MENU )
+          done = true;
       }
 
       al_flip_display();

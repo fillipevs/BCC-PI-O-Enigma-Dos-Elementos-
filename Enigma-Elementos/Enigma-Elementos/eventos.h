@@ -33,6 +33,24 @@ void destroyShots(Tiro shots[]) {
   }
 }
 
+void morrendo(Personagem* character, bool* done, GameStatus* gameStatus) {
+  if( character->alive ) {
+    al_destroy_bitmap(character->sprite);
+    character->sprite = al_load_bitmap("./assets/heroi/morrendo.png");
+    character->frame = 0;
+    character->frameAtualY = 0;
+    character->alive = false;
+  } else {
+    character->frame += 0.03;
+    if( character->frame > character->frameMax ) {
+      character->frame -= character->frameMax;
+      *done = true;
+      gameStatus->coming = gameStatus->going;
+      gameStatus->going = GAMEOVER;
+    }
+  }
+}
+
 void shotExploding(Tiro* shot) {
   shot->vel = 0;
   shot->frame += 0.70;

@@ -26,7 +26,7 @@ int main () {
     switch (gameStatus.going)
     {
     case MENU:
-      menu(&allegro, &gameStatus);
+      menu(&allegro, &gameStatus, &interface, &barreira);
       break;
     case PROLOGUE: 
       prologue(&allegro, &gameStatus);
@@ -35,13 +35,19 @@ int main () {
       lobby(&allegro, &gameStatus, &interface, &barreira);
       break;
     case WATER: 
-      water(&allegro, &gameStatus, &interface);
+      water(&allegro, &gameStatus, &interface, &barreira);
       break;
     case FIRE: 
-      fire(&allegro, &gameStatus, &interface);
+      fire(&allegro, &gameStatus, &interface, &barreira);
       break;
     case GRASS: 
-      grass(&allegro, &gameStatus, &interface);
+      grass(&allegro, &gameStatus, &interface, &barreira);
+      break;
+    case GAMEOVER: 
+      gameover(&allegro, &gameStatus, &interface);
+      break;
+    case END: 
+      end(&allegro, &gameStatus);
       break;
     case EXIT: 
       allegro.close = true;
