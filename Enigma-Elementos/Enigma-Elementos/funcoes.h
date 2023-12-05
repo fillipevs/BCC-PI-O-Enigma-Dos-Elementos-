@@ -10,6 +10,8 @@ bool enemyHit(Tiro* shot, Personagem* char1);
 bool barreiraHit(Tiro* shot, MapSquare* square);
 void createEnemies(Personagem bobOmb[], int size, SpawnType spawnType, GameStatus* gameStatus);
 void destroyEnemies(Personagem bobOmb[], int size);
+void createEnemies(Personagem chefe[], int size, SpawnType spawnType, GameStatus* gameStatus);
+void destroyEnemies(Personagem chefe[], int size);
 void destroyShots(Tiro shots[]);
 void shotExploding(Tiro* shot);
 bool shotCollision(Tiro* shot, MapSquare* square);

@@ -7,8 +7,8 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
   float heroCrystalDistance = 0.0f;
   float heroBobOmbDistance = 0.0f;
 
-  int enemyAmount = 18;
-  Personagem bobOmb[18];
+  int enemyAmount = 5;
+  Personagem bobOmb[5];
   createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
   MapSquare square1 = {-10, 190, 230, 670};
@@ -196,7 +196,7 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
       showInterface(interface);
       if( talkAboutElement ) {
         talkAboutElement = false;
-        dialogBox(allegro, "Ácido nítrico, Cromato de potássio e Amônia. Os últimos que faltavam!!", &heroi);
+        dialogBox(allegro, "Ácido nítrico (HNO3), Cromato de potássio (K2CrO4) e Amônia (NH3). Os últimos que faltavam!!", &heroi);
         createEnemies(bobOmb, enemyAmount, TAKE_ELEMENT, gameStatus);
       }
 

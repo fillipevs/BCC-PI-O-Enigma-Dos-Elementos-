@@ -7,8 +7,8 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
   float heroCrystalDistance = 0.0f;
   float heroBobOmbDistance = 0.0f;
 
-  int enemyAmount = 14;
-  Personagem bobOmb[14];
+  int enemyAmount = 6;
+  Personagem bobOmb[6];
   createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
   MapSquare square1 = {900, 1030, 288, 453};
@@ -207,7 +207,10 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
 
       if( talkAboutElement ) {
         talkAboutElement = false;
-        dialogBox(allegro, "Ácido clorídrico, Ufaa!!", &heroi);
+        dialogBox(allegro, "Ácido clorídrico (HCl)", &heroi);
+        dialogBox(allegro, "O ácido clorídrico se forma naturalmente pela reação do cloreto de sódio com sulfatos ácidos nas águas dos oceanos ou na atmosfera.", &heroi);
+        dialogBox(allegro, "Vou preparar uma poção com esse reagente para dissolver a barreira", &heroi);
+        dialogBox(allegro, "Pronto!!, Acredito que jogando isso na barreira ela ira se quebrar", &heroi);
         createEnemies(bobOmb, enemyAmount, TAKE_ELEMENT, gameStatus);
       }
 

@@ -7,8 +7,8 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
   float heroCrystalDistance = 0.0f;
   float heroBobOmbDistance = 0.0f;
 
-  int enemyAmount = 14;
-  Personagem bobOmb[14];
+  int enemyAmount = 6;
+  Personagem bobOmb[6];
   createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
   MapSquare square1 = {430, 658, 45, 80};
@@ -207,7 +207,9 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
 
       if( talkAboutElement ) {
         talkAboutElement = false;
-        dialogBox(allegro, "Hidróxido de amônio, Ufaa!!", &heroi);
+        dialogBox(allegro, "Hidróxido de amônio (NH4OH)", &heroi);
+        dialogBox(allegro, "O Hidróxido de Amônio (NH4OH) é uma substância obtida naturalmente a partir da reação entre Amônia Anidra (NH3) e Água, sob pressão e temperatura controladas.", &heroi);
+        dialogBox(allegro, "Vou preparar a poção com esse reagente!!", &heroi);
       }
 
       al_flip_display();

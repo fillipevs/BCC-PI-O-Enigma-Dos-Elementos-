@@ -4,7 +4,7 @@ int main () {
 
   Allegro allegro = init();
 
-  GameStatus gameStatus = {MENU, MENU};
+  GameStatus gameStatus = {MENU, MENU };
 
   Barreira barreira;
   barreira.chumbo = true;
