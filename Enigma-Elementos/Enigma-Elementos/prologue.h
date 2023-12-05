@@ -103,15 +103,15 @@ void prologue(Allegro* allegro, GameStatus* gameStatus) {
       // Earl talking to Hero
       if( !alreadyTalked && counter <= 631 ) {
         alreadyTalked = true;
-        dialogBox(allegro, "Senhor Alex, urgência! A Princesa foi aprisionada e o rei precisa da sua ajuda!", &earl);
+        dialogBox(allegro, "Senhor Alex, urgência! A Princesa foi aprisionada e o Rei precisa da sua ajuda!", &earl);
         dialogBox(allegro, "O quê? Como isso aconteceu, vamos rapido onde ela está?", &heroi);
-        dialogBox(allegro, "Na no antigo cemiterio, vamos o mais rápido possível.", &earl);
+        dialogBox(allegro, "No antigo cemitério, vamos o mais rápido possível.", &earl);
         dialogBox(allegro, "Vamos!! Pode contar comigo.", &heroi);
       }  
       // King talking to Earl and Hero
       else if( !alreadyTalked && counter <= 2161 ) {
         dialogBox(allegro, "Sua Majestade, aqui está o jovem Alex, conforme solicitado.", &earl);
-        dialogBox(allegro, "Que bom que você chegou eu e minha filha estavamos visitando o tumulo da minha falecida esposa e ela foi capturada por uma armadilha pelo que parece ser magica.", &king);
+        dialogBox(allegro, "Que bom que você chegou! Eu e minha filha estavámos visitando o túmulo da minha falecida esposa e a Princesa foi capturada por uma armadilha mágica.", &king);
         dialogBox(allegro, "Precisamos tirar a princesa daquela armadilha urgente!!", &king);
       } 
       // King talking to Hero
