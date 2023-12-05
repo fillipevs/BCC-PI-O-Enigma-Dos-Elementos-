@@ -103,20 +103,21 @@ void prologue(Allegro* allegro, GameStatus* gameStatus) {
       // Earl talking to Hero
       if( !alreadyTalked && counter <= 631 ) {
         alreadyTalked = true;
-        dialogBox(allegro, "Senhor Alex, urgência! A Princesa está aprisionada por uma barreira alquímica!", &earl);
-        dialogBox(allegro, "O quê? Como isso aconteceu, Conde? Preciso agir rápido. Onde ela está?", &heroi);
-        dialogBox(allegro, "Na sala de feitiços, vamos o mais rápido possível.", &earl);
+        dialogBox(allegro, "Senhor Alex, urgência! A Princesa foi aprisionada e o rei precisa da sua ajuda!", &earl);
+        dialogBox(allegro, "O quê? Como isso aconteceu, vamos rapido onde ela está?", &heroi);
+        dialogBox(allegro, "Na no antigo cemiterio, vamos o mais rápido possível.", &earl);
         dialogBox(allegro, "Vamos!! Pode contar comigo.", &heroi);
       }  
       // King talking to Earl and Hero
       else if( !alreadyTalked && counter <= 2161 ) {
         dialogBox(allegro, "Sua Majestade, aqui está o jovem Alex, conforme solicitado.", &earl);
-        dialogBox(allegro, "Conde, Alex, agradeço por terem vindo. Precisamos tirar a princesa daquela barreira urgente!!", &king);
-      }
+        dialogBox(allegro, "Que bom que você chegou eu e minha filha estavamos visitando o tumulo da minha falecida esposa e ela foi capturada por uma armadilha pelo que parece ser magica.", &king);
+        dialogBox(allegro, "Precisamos tirar a princesa daquela armadilha urgente!!", &king);
+      } 
       // King talking to Hero
       else if( !alreadyTalked && counter > 2161 && counter <= 2162 ) {
-        dialogBox(allegro, "Sua Majestade, antes de tudo, preciso examinar a barreira para determinar quais substâncias serão necessárias para quebrá-la.", &heroi);
-        dialogBox(allegro, "Por favor, faça o que for necessário, Alex. Minha filha precisa ser liberta dessa prisão mágica.", &king);
+        dialogBox(allegro, "Sua Majestade, antes de tudo, preciso examinar essa armadilha para determinar como poderemos quebrá-la.", &heroi);
+        dialogBox(allegro, "Por favor, faça o que for necessário, Alex. Minha filha precisa ser liberta dessa prisão.", &king);
       }
 
       if( pause ) {

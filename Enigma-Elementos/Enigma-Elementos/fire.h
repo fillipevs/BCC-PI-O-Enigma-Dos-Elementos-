@@ -8,6 +8,7 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barrei
   float heroCrystalDistance = 0.0f;
   float heroBobOmbDistance = 0.0f;
 
+
   int enemyAmount = barreira->verificar ? 18 : 0;
   Personagem bobOmb[18];
   if( barreira->verificar )
@@ -205,7 +206,8 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barrei
       showInterface(interface);
       if( talkAboutElement ) {
         talkAboutElement = false;
-        dialogBox(allegro, "Ácido nítrico, Cromato de potássio e Amônia. Os últimos que faltavam!!", &heroi);
+        
+        dialogBox(allegro, "Ácido nítrico (HNO3), Cromato de potássio (K2CrO4) e Amônia (NH3). Os últimos que faltavam!!", &heroi);
         if( barreira->verificar )
           createEnemies(bobOmb, enemyAmount, TAKE_ELEMENT, gameStatus);
       }

@@ -147,12 +147,38 @@
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="controles.h" />
+    <ClInclude Include="collisions.h" />
+    <ClInclude Include="constantes.h" />
+    <ClInclude Include="dialogBox.h" />
+    <ClInclude Include="eventos.h" />
+    <ClInclude Include="fire.h" />
+    <ClInclude Include="funcoes.h" />
+    <ClInclude Include="grass.h" />
+    <ClInclude Include="inimigo.h" />
+    <ClInclude Include="interface.h" />
+    <ClInclude Include="lobby.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="prologue.h" />
     <ClInclude Include="structs.h" />
+    <ClInclude Include="water.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\andando.png" />
-    <Image Include="assets\mapa.png" />
+    <Image Include="assets\dialog-box.png" />
+    <Image Include="assets\e1-t.bmp" />
+    <Image Include="assets\e1.png" />
+    <Image Include="assets\e2-t.bmp" />
+    <Image Include="assets\e2.png" />
+    <Image Include="assets\e3-t.bmp" />
+    <Image Include="assets\e3.png" />
+    <Image Include="assets\e4-t.bmp" />
+    <Image Include="assets\e4.png" />
+    <Image Include="assets\fireball.png" />
+    <Image Include="assets\heart.png" />
+    <Image Include="assets\mouse-left.png" />
+    <Image Include="assets\mouse-right.png" />
+    <Image Include="assets\pressE.png" />
+    <Image Include="assets\slotEmpty.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

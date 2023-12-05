@@ -47,6 +47,7 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
   princess.sprite = al_load_bitmap("./assets/npc/princess.png");
   heroi.face = al_load_bitmap("./assets/heroi/face.png");
   king.face = al_load_bitmap("./assets/npc/king-face.png");
+  chefe.face = al_load_bitmap("./assets/npc/king-face.png");
 
   do {
     while(!al_is_event_queue_empty(allegro->eventQueue)) {
@@ -246,19 +247,29 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
 
       if( talkWithBarreira ) {
         talkWithBarreira = false;
-        if( barreira->chumbo ) {
-          dialogBox(allegro, "Essa barreira... é de Chumbo. Impenetrável e resistente. Precisarei encontrar ácido clorídrico para desfazê-la.", &heroi);
-          dialogBox(allegro, "Se não me engano esse elemento fica no reino da planta, do lado esquerdo. Só preciso tomar cuidado com os inimigos que andam por lá!", &heroi);
+        if (barreira->chumbo) {
+            dialogBox(allegro, " Vossa magestade acredito que essa barreira foi feita com algums minerios e imbuida com uma magia", &heroi);
+            dialogBox(allegro, "Os minerios contidos nessa barreira são: Prata (AG) Chumbo (Pb) e Mercúrio (Hg).", &heroi);
+            dialogBox(allegro, "Acredito que posso destruir essa barreira utilizando algums solventes quimicos e a marcha analítica de cátions do grupo 1", &heroi);
+            dialogBox(allegro, "Primeiro preciso buscar ácido Clorídrico (HCl) que pode dissolver o Chumbo (Pb).", &heroi);
+            dialogBox(allegro, "Acho que posso encontrar uma rocha com esse reagente na floresta a Oeste.", &heroi);
+            dialogBox(allegro, "Perfeito va o mais rapido possivel a vida de minha filha está em risco.", &king);
         } else if( barreira->prata || barreira->mercurio ) {
-          dialogBox(allegro, "Essa duas barreiras... é de Prata e Mercúrio... A solução química para desfazer ambas as barreiras é hidróxido de amônio.", &heroi);
-          dialogBox(allegro, "Certeza que consigo um pouco no reino da água. Só descer o caminho de pedra e eu chego lá.", &heroi);
+          dialogBox(allegro, "Essa duas barreiras... é de Prata (AG) e Mercúrio (Hg)... ", &heroi);
+          dialogBox(allegro, "O reagente para desfazer ambas as barreiras é hidróxido de Amônio (NH4OH).", &heroi);
+          dialogBox(allegro, "Certeza que consigo um pouco nas praias ao Sul. Só descer o caminho de pedra e eu chego lá.", &heroi);
         } else if( barreira->verificar ) {
           dialogBox(allegro, "As barreiras cairam!! Mas como usamos elementos químicos, essa área pode estar contaminada, precisamos verificar!", &heroi);
-          dialogBox(allegro, "Para fazer a verificação preciso pegar Ácido nítrico, Cromato de potássio e Amônia no reino de fogo, do lado direito.", &heroi);
+          dialogBox(allegro, "Espere princessa ainda não se mexa, ainda tenho que verificar os minerios eles podem estar contaminados e deixalos solidos e seguros.", &heroi);
+          dialogBox(allegro, "Para fazer a verificação preciso pegar alguns outros reagentes", &heroi);
+          dialogBox(allegro, "1 ácido nítrico (HNO₃) para validação da separação da Prata (AG) que ficara branca e solida.", &heroi);
+          dialogBox(allegro, "2 cromato de potássio (K₂CrO₄) para que o Chumbo (Pb) seja validado é ficar amarelo e solido.", &heroi);
+          dialogBox(allegro, "3 amônia (NH3) para identificar o Mercúrio (Hg) que ficara preto e solido.", &heroi);
           dialogBox(allegro, "Se essa cor amarelada sumir, significa que a princesa pode sair com segurança.", &heroi);
+          dialogBox(allegro, "Muito sabio você jovem mago!", &chefe); // fazer vilão
+          dialogBox(allegro, "Me encontre nas terras vulcanicas ao Leste, se você me derrotar tera os elementos para desfazer minha barreira", &chefe); // fazer vilão
         }
       }
-
       if( talkWithKing ) {
         talkWithKing = false;
         dialogBox(allegro, "Por favor, tira minha filha daquela barreira.", &king);
@@ -276,7 +287,6 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
         if( gameStatus->going == MENU )
           done = true;
       }
-
       al_flip_display();
     }
   } while(!done);
