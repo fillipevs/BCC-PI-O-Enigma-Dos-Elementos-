@@ -33,7 +33,7 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
     break;
   }
 
-  MapSquare square1 = {125, 980, 65, 175}; 
+  MapSquare square1 = {120, 975, 70, 170}; 
   MapSquare square2 = {430, 530, 70, 380};
   MapSquare square3 = {20, 1010, 295, 718};
 

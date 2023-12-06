@@ -123,7 +123,7 @@ void prologue(Allegro* allegro, GameStatus* gameStatus) {
       if( pause ) {
         pause = false;
         pauseGame(allegro, gameStatus);
-        if( gameStatus->going == MENU )
+        if( gameStatus->going == LOBBY )
           done = true;
       }
 

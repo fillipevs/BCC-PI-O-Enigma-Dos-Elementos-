@@ -45,7 +45,11 @@ void pauseGame(Allegro* allegro, GameStatus* gameStatus) {
               draw = true;
             } else if( !displayControls && allegro->mouse.x >= menu.x0 && allegro->mouse.x <= menu.x1 && allegro->mouse.y >= menu.y0 && allegro->mouse.y <= menu.y1 ) {
               done = true;
-              gameStatus->going = MENU;
+              if( gameStatus->going == PROLOGUE ) {
+                gameStatus->going = LOBBY;
+              } else {
+                gameStatus->going = MENU;
+              }
             } else if( displayControls && allegro->mouse.x >= voltar.x0 && allegro->mouse.x <= voltar.x1 && allegro->mouse.y >= voltar.y0 && allegro->mouse.y <= voltar.y1 ) {
               displayControls = false;
               draw = true;
@@ -64,7 +68,11 @@ void pauseGame(Allegro* allegro, GameStatus* gameStatus) {
         al_draw_bitmap(pauseImg, 250, 200, 0);
         al_draw_text(allegro->font[0], al_map_rgb(0,0,0), 400, 305, 0, "CONTINUAR");
         al_draw_text(allegro->font[0], al_map_rgb(0,0,0), 400, 370, 0, "CONTROLES");
-        al_draw_text(allegro->font[0], al_map_rgb(0,0,0), 445, 435, 0, "MENU");
+        if( gameStatus->going == PROLOGUE ) {
+          al_draw_text(allegro->font[0], al_map_rgb(0,0,0), 365, 435, 0, "PULAR PRÓLOGO");
+        } else {
+          al_draw_text(allegro->font[0], al_map_rgb(0,0,0), 445, 435, 0, "MENU");
+        }
       } else {
         al_draw_bitmap(controlesImg, 250, 200, 0);
         al_draw_text(allegro->font[1], al_map_rgb(0,0,0), 445, 460, 0, "VOLTAR");

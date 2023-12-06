@@ -102,7 +102,7 @@ void atacar(int mx, int my, Interface* interface) {
           heroi.tiros[i].frame = 0.0f;
           heroi.tiros[i].vel = 6;
           heroi.tiros[i].isExploding = false;
-          heroi.tempoAtacar = 5.5;
+          heroi.tempoAtacar = 5.6;
 
           switch (interface->attack2SlotType) {
             case ACIDO_CLORIDRICO:
