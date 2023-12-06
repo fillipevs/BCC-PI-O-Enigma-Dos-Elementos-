@@ -10,6 +10,7 @@ void prologue(Allegro* allegro, GameStatus* gameStatus) {
   bool alreadyTalked = true;
 
   heroi.lifes = 5;
+  heroi.maxLifes = 3;
   heroi.vel = 1.3;
   heroi.posX = 635;
   heroi.posY = 170;
