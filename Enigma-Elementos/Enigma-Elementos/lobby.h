@@ -33,9 +33,9 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
     break;
   }
 
-  MapSquare square1 = {120, 975, 70, 170};
-  MapSquare square2 = {440, 520, 70, 380};
-  MapSquare square3 = {20, 1000, 325, 718};
+  MapSquare square1 = {125, 980, 65, 175}; 
+  MapSquare square2 = {430, 530, 70, 380};
+  MapSquare square3 = {20, 1010, 295, 718};
 
   MapSquare chumbo = {31, 131, 50, 150};
   MapSquare prataMercurio = {35, 125, 40, 130};
@@ -62,16 +62,16 @@ void lobby(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
         case ALLEGRO_EVENT_TIMER:
           draw = true;
           al_get_mouse_state(&allegro->mouse);
-          characterCollision(&king, &heroi);
-          characterCollision(&princess, &heroi);
+          // characterCollision(&king, &heroi);
+          // characterCollision(&princess, &heroi);
 
         // colisão do herói com o mapa
-          if( heroi.posX >= 440 && heroi.posX <= 520 && heroi.posY+heroi.altura <= 325 && heroi.posY+heroi.altura >= 170) {
-            mapCollision(&heroi, &square2);
-          } else if( heroi.posY+heroi.altura >= 190 ) {
-            mapCollision(&heroi, &square3);
+          if( heroi.posX >= 440 && heroi.posX+heroi.largura <= 520 && heroi.posY+heroi.altura <= 325 && heroi.posY+heroi.altura >= 170) {
+            mapCollision(&heroi, &square2); 
+          } else if(  heroi.posX >= 0 && heroi.posX+heroi.largura <= 1020 && heroi.posY+heroi.altura >= 320 ) {
+            mapCollision(&heroi, &square3); 
           } else {
-            mapCollision(&heroi, &square1);
+            mapCollision(&heroi, &square1); 
           }
 
           if( heroi.alive && (heroi.indoCima || heroi.indoDireita || heroi.indoBaixo || heroi.indoEsquerda) ) {

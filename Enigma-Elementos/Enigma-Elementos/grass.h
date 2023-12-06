@@ -15,7 +15,7 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
     createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
   MapSquare square1 = {900, 1030, 288, 453};
-  MapSquare square2 = {210, 1010, 100, 720};
+  MapSquare square2 = {210, 1010, 70, 720};
   MapSquare square3 = {95, 300, 115, 330};
   MapSquare square4 = {95, 300, 390, 720};
   MapSquare square5 = {170, 300, 115, 720};
@@ -196,7 +196,7 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
 
           if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 920 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 288 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 453) {
             shotCollision(&heroi.tiros[i], &square1); 
-          } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 220 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 1010 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 100 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 720) {
+          } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 220 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 1010 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 70 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 720) {
             shotCollision(&heroi.tiros[i], &square2);
           } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 95 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 300 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 115 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 330) {
             shotCollision(&heroi.tiros[i], &square3); 

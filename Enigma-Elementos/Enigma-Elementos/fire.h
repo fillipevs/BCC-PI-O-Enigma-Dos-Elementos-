@@ -14,8 +14,8 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barrei
   if( barreira->verificar )
     createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
-  MapSquare square1 = {-10, 190, 230, 670};
-  MapSquare square2 = {139, 830, 230, 710};
+  MapSquare square1 = {-10, 190, 200, 670};
+  MapSquare square2 = {139, 830, 200, 710};
   MapSquare square3 = {397, 730, 158, 245};
 
   Crystal crystal;
@@ -188,9 +188,9 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barrei
             heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
           }
 
-          if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 0 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 190 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 230 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 670) {
+          if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 0 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 190 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 200 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 670) {
             shotCollision(&heroi.tiros[i], &square1);
-          } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 139 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 830 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 230 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 710) { 
+          } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 139 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 830 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 200 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 710) { 
             shotCollision(&heroi.tiros[i], &square2);
           } else {
             shotCollision(&heroi.tiros[i], &square3);
