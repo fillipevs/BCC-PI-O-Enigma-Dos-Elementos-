@@ -99,23 +99,26 @@ void createEnemies(Personagem bobOmb[], int size, SpawnType spawnType, GameStatu
       case GRASS:
         bobOmb[i].posX = spawnType == START ? rand() % 752 + 119 : rand() % 752 + 119;
         bobOmb[i].posY = spawnType == START ? rand() % 601 + 114 : rand() % 715 + 715;
+        bobOmb[i].vel = spawnType == START ? (float)(rand() % 2 + 4) * 0.35 : (float)(rand() % 2 + 5) * 0.30;
         break;
       case WATER:
         bobOmb[i].posX = spawnType == START ? rand() % 790 + 137 : rand() % 790 + 137;
         bobOmb[i].posY = spawnType == START ? rand() % 356 + 100 : rand() % 356 + 100;
+        bobOmb[i].vel = spawnType == START ? (float)(rand() % 2 + 5) * 0.30 : (float)(rand() % 2 + 5) * 0.30;
         break;
       case FIRE:
         bobOmb[i].posX = spawnType == START ? rand() % 605 + 170 : rand() % 605 - 675;
         bobOmb[i].posY = spawnType == START ? rand() % 453 + 200 : rand() % 453 + 200;
+        bobOmb[i].vel = spawnType == START ? (float)(rand() % 2 + 5) * 0.30 : (float)(rand() % 2 + 4) * 0.38;
         break;
       default:
         bobOmb[i].posX = spawnType == START ? rand() % 752 + 119 : rand() % 752 + 119;
         bobOmb[i].posY = spawnType == START ? rand() % 601 + 114 : rand() % 715 + 715;
+        bobOmb[i].vel = spawnType == START ? (float)(rand() % 3 + 4) * 0.25 + 0.25 : (float)(rand() % 2 + 5) * 0.25 + 0.25;
         break;
       }
       bobOmb[i].largura = 49.5;
       bobOmb[i].altura = 38;
-      bobOmb[i].vel = 1.25;
       bobOmb[i].indoCima = false;
       bobOmb[i].indoDireita = false;
       bobOmb[i].indoBaixo = false;

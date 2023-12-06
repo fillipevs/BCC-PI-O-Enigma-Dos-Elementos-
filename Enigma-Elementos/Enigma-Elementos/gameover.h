@@ -7,11 +7,17 @@ void gameover(Allegro* allegro, GameStatus* gameStatus, Interface* interface) {
   int textColorTimeDirection = 1;
 
   heroi.alive = true;
-  heroi.lifes = 5;
+  heroi.lifes = heroi.maxLifes;
+  if( heroi.maxLifes > 1 ) {
+    heroi.maxLifes--;
+  }
   heroi.indoBaixo = false;
   heroi.indoCima = false;
   heroi.indoDireita = false;
   heroi.indoEsquerda = false;
+  heroi.estaAtacando.element = false;
+  heroi.estaAtacando.fireball = false;
+  heroi.vel = 1.3;
   gameStatus->coming = GAMEOVER;
   gameStatus->going = LOBBY;
   interface->attack2SlotType = EMPTY;

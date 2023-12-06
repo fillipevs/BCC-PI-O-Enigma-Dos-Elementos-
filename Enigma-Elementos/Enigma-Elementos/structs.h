@@ -95,6 +95,7 @@ typedef struct {
   bool alive;
   bool exploding;
   int lifes;
+  int maxLifes;
   Tiro tiros[5];
 } Personagem;
 
@@ -118,6 +119,7 @@ Personagem heroi = {
   true, // está vivo
   false, // está explodindo
   5, // qtd de vidas
+  3, // maximo de vida, diminui a cada morte
 };
 
 Personagem earl = {
@@ -146,7 +148,7 @@ Personagem king = {
   70, // posição y
   48.3, // largura
   48, // altura
-  1.3, // velocidade
+  1.5, // velocidade
   false, // cima
   false, // direita
   false, // baixo
@@ -167,7 +169,7 @@ Personagem princess = {
   70, // posição y
   48.3, // largura
   48, // altura
-  1.3, // velocidade
+  1.5, // velocidade
   false, // cima
   false, // direita
   false, // baixo

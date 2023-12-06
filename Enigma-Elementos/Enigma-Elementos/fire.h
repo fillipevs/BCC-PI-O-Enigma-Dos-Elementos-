@@ -9,8 +9,8 @@ void fire(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barrei
   float heroBobOmbDistance = 0.0f;
 
 
-  int enemyAmount = barreira->verificar ? 18 : 0;
-  Personagem bobOmb[18];
+  int enemyAmount = barreira->verificar ? 16 : 0;
+  Personagem bobOmb[16];
   if( barreira->verificar )
     createEnemies(bobOmb, enemyAmount, START, gameStatus);
 

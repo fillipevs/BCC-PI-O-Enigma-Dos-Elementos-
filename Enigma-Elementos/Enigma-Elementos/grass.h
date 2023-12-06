@@ -9,8 +9,8 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
   float heroBobOmbDistance = 0.0f;
 
 
-  int enemyAmount = barreira->chumbo ? 14 : 0;
-  Personagem bobOmb[14];
+  int enemyAmount = barreira->chumbo ? 16 : 0;
+  Personagem bobOmb[16];
   if( barreira->chumbo )
     createEnemies(bobOmb, enemyAmount, START, gameStatus);
 

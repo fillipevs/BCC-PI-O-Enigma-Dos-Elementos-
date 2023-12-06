@@ -11,6 +11,7 @@ void end(Allegro* allegro, GameStatus* gameStatus) {
   heroi.indoCima = false;
   heroi.indoDireita = false;
   heroi.indoEsquerda = false;
+  heroi.vel = 2.0;
 
   float kingHeroDistance = 0.0f;
   float princessHeroDistance = 0.0f;

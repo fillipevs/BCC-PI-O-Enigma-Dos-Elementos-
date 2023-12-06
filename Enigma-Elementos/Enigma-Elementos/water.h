@@ -14,7 +14,7 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
   if( barreira->mercurio )
     createEnemies(bobOmb, enemyAmount, START, gameStatus);
 
-  MapSquare square1 = {430, 658, 45, 80};
+  MapSquare square1 = {430, 658, 0, 80};
   MapSquare square2 = {72, 790, 66, 136};
   MapSquare square3 = {108, 950, 100, 397};
   MapSquare square4 = {870, 1010, 100, 136};
@@ -98,7 +98,7 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
               takeElement(interface, &crystal);
               talkAboutElement = true;
             }
-            if( heroi.alive && heroi.posX >= 430 && heroi.posX <= 658 && heroi.posY+heroi.altura >= 45 && heroi.posY+heroi.altura <= 70) {
+            if( heroi.alive && heroi.posX >= 430 && heroi.posX <= 658 && heroi.posY+heroi.altura >= 40 && heroi.posY+heroi.altura <= 70) {
               gameStatus->going = LOBBY;
               gameStatus->coming = WATER;
               done = true;
@@ -157,7 +157,7 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
 
       heroCrystalDistance = sqrt( pow(heroi.posX+heroi.largura / 2 - crystal.posX, 2) + pow(heroi.posY+heroi.altura / 2 - crystal.posY, 2) );
 
-      if( heroi.posX >= 430 && heroi.posX <= 658 && heroi.posY+heroi.altura >= 45 && heroi.posY+heroi.altura <= 70 ) {
+      if( heroi.posX >= 430 && heroi.posX <= 658 && heroi.posY+heroi.altura >= 40 && heroi.posY+heroi.altura <= 70 ) {
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY+heroi.altura+10, 0);
       } else if( heroCrystalDistance < 50 ) {
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY-20, 0);
@@ -193,7 +193,7 @@ void water(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
             heroi.tiros[i].posY += 6 * sin(heroi.tiros[i].angulo);
           }
           
-          if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 430 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 658 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 45 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 70) {
+          if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 430 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 658 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 0 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 70) {
             shotCollision(&heroi.tiros[i], &square1);
           } else if( heroi.tiros[i].posX+heroi.tiros[i].largura/2 >= 72 && heroi.tiros[i].posX+heroi.tiros[i].largura/2 <= 740 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 >= 66 && heroi.tiros[i].posY+heroi.tiros[i].altura/2 <= 136 ) {
             shotCollision(&heroi.tiros[i], &square2);
