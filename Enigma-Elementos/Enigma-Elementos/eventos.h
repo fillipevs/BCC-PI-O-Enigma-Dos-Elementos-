@@ -83,7 +83,7 @@ void atacar(int mx, int my, Interface* interface) {
           heroi.tiros[i].vel = 6;
           heroi.tiros[i].isExploding = false;
           heroi.tiros[i].image = al_load_bitmap("./assets/poderes/shot.png");
-          heroi.tempoAtacar = 6;
+          heroi.tempoAtacar = 5.5;
           break;
         } 
       }
@@ -102,7 +102,7 @@ void atacar(int mx, int my, Interface* interface) {
           heroi.tiros[i].frame = 0.0f;
           heroi.tiros[i].vel = 6;
           heroi.tiros[i].isExploding = false;
-          heroi.tempoAtacar = 6;
+          heroi.tempoAtacar = 5.5;
 
           switch (interface->attack2SlotType) {
             case ACIDO_CLORIDRICO:

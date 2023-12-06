@@ -4,6 +4,13 @@ void dialogBox(Allegro* allegro, char string[], Personagem* character) {
   bool draw = true;
   bool done = false;
 
+  character->estaAtacando.element = false;
+  character->estaAtacando.fireball = false;
+  character->indoBaixo = false;
+  character->indoCima = false;
+  character->indoDireita = false;
+  character->indoEsquerda = false;
+
   ALLEGRO_BITMAP* box = al_load_bitmap("./assets/dialog-box.png");
 
   do {

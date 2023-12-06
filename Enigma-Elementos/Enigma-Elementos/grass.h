@@ -164,7 +164,7 @@ void grass(Allegro* allegro, GameStatus* gameStatus, Interface* interface, Barre
         al_draw_bitmap(interface->interactBtnImg, heroi.posX+heroi.largura/2.5, heroi.posY-20, 0);
       }
 
-      if( heroi.lifes == 0 ) {
+      if( heroi.lifes <= 0 ) {
         morrendo(&heroi, &done, gameStatus); 
       }
 
